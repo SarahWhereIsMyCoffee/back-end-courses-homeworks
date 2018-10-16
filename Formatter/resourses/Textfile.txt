@@ -1,1 +1,1 @@
-while {if (inputStream.hasNext()) { char symbol = inputStream.read();}} asdasd
+while {if (inputStream.hasNext()) { {char} {symbol = inputStream.read();}}}

@@ -10,7 +10,7 @@ public class Formatter {
         this.stringBuilder = stringBuilder;
         createInitialList();
         functions.put('{', this::toFixWithOpeningBracket);
-        functions.put('}', this::toFixWithClosingingBracket);
+        functions.put('}', this::toFixWithClosingBracket);
         functions.put(';', this::toFixWithSemicolon);
     }
     public void createInitialList() {
@@ -44,7 +44,6 @@ public class Formatter {
     private StringBuilder stringBuilder;
     private String line;
     private int finalListIterator;
-    private int levelOfBranches = 0;
 
     public void shiftToTheLeft(int currentIterator, int iterationsCount) {
         for (int i = 0; i < iterationsCount; i++) {
@@ -102,7 +101,7 @@ public class Formatter {
             }
         }
     }
-    public void toFixWithClosingingBracket() {
+    public void toFixWithClosingBracket() {
         if (finalList.get(finalListIterator - 1) != ' ' && finalList.get(finalListIterator - 1) != '\n') {
                 shiftToTheRight(finalListIterator, 1);
                 finalList.set(finalListIterator, '\n');
@@ -121,7 +120,7 @@ public class Formatter {
         } else {
             if (finalList.get(finalListIterator + 1) != '{' && finalList.get(finalListIterator + 1) != '}') {
                 shiftToTheRight(finalListIterator + 1, 1);
-                finalList.set(finalListIterator + levelOfBranches, '\n');
+                finalList.set(finalListIterator + 1, '\n');
                 finalListIterator+=1;
             }
         }
@@ -148,45 +147,40 @@ public class Formatter {
         while (finalListIterator < finalList.size()) {
             char currentSymbol = finalList.get(finalListIterator);
             if (currentSymbol == '{' || currentSymbol == ';' || currentSymbol == '}') {
-                if (currentSymbol == '{')
-                {
-                    levelOfBranches++;
-                }
-                if (currentSymbol == '}')
-                {
-                    levelOfBranches--;
-                }
                 functions.get(currentSymbol).run();
             }
             finalListIterator++;
         }
-        System.out.println("\nДо пробелов: ");
+        System.out.println("\nДо фикса пробелов пробелов: ");
         finalListOutput();
-        fixTheSpaces();
+        fixSpaces();
     }
 
-    public void fixTheSpaces() {
-        boolean flag = false;
+    public void fixSpaces() {
+      int levelOfBranches = 0;
         finalListIterator = 0;
-        while ((finalListIterator < finalList.size())) {
+
+        while (finalListIterator < finalList.size()) {
+            if (finalListIterator == finalList.size()-1){
+                break;
+            }
             char currentSymbol = finalList.get(finalListIterator);
 
             if (currentSymbol == '{') {
                 levelOfBranches++;
-            } else {
-                if (currentSymbol == '}') {
-                    levelOfBranches--;
-                }
+            }
+            if (currentSymbol == '}') {
+                levelOfBranches--;
             }
 
-            //System.out.println("levelOfBranches inside - " + levelOfBranches + " currentSymbol - " + currentSymbol);
-            if (levelOfBranches != 0 && currentSymbol == '\n') {
+            System.out.println("Уровень скобок - " + levelOfBranches + " Символ сейчас - " + currentSymbol);
+
+            if ((levelOfBranches != 0 && currentSymbol == '\n') || currentSymbol == ';' || currentSymbol == '}') {
                 finalListIterator++;
                 for (int j = 0; j < 4 * levelOfBranches; j++) {
                     shiftToTheRight(finalListIterator, 1);
                     finalListIterator++;
                 }
-
             }
                 finalListIterator++;
         }
