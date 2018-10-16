@@ -158,50 +158,39 @@ public class Formatter {
                 }
                 functions.get(currentSymbol).run();
             }
-            if (levelOfBranches != 0 && currentSymbol == '\n') {
-                shiftToTheRight(finalListIterator, 1);
-                finalListIterator++;
-            }
-            /*
-            if (levelOfBranches != 0 && currentSymbol == '\n') {
-                finalListIterator++;
-                for (int i = 0; i < levelOfBranches; i++) {
-                    for (int j = 0; j < 4 * (i + 1) - 1; j++) {
-                        shiftToTheRight(finalListIterator, 1);
-                        finalListIterator++;
-                    }
-                }
-            }
-*/
             finalListIterator++;
         }
+        System.out.println("\nДо пробелов: ");
+        finalListOutput();
+        fixTheSpaces();
+    }
 
+    public void fixTheSpaces() {
+        boolean flag = false;
         finalListIterator = 0;
         while ((finalListIterator < finalList.size())) {
             char currentSymbol = finalList.get(finalListIterator);
-            if (currentSymbol == '{')
-            {
-                levelOfBranches++;
-            }
-            if (currentSymbol == '}')
-            {
-                levelOfBranches--;
-            }
 
-            if (levelOfBranches != 0 && currentSymbol == '\n') {
-                finalListIterator++;
-                for (int i = 0; i < levelOfBranches; i++) {
-                    for (int j = 0; j < 4 * (i + 1) - 1; j++) {
-                        shiftToTheRight(finalListIterator, 1);
-                        finalListIterator++;
-                    }
+            if (currentSymbol == '{') {
+                levelOfBranches++;
+            } else {
+                if (currentSymbol == '}') {
+                    levelOfBranches--;
                 }
             }
-            finalListIterator++;
+
+            //System.out.println("levelOfBranches inside - " + levelOfBranches + " currentSymbol - " + currentSymbol);
+            if (levelOfBranches != 0 && currentSymbol == '\n') {
+                finalListIterator++;
+                for (int j = 0; j < 4 * levelOfBranches; j++) {
+                    shiftToTheRight(finalListIterator, 1);
+                    finalListIterator++;
+                }
+
+            }
+                finalListIterator++;
         }
-
     }
-
     public void finalListOutput() {
         finalList.forEach(System.out::print);
         System.out.println();
