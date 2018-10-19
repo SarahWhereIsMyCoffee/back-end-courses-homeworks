@@ -1,0 +1,12 @@
+publi
+
+c clas
+s Main{public static void main(String[]
+
+ args){System.out.pr;
+
+
+
+
+dasdad;
+intln; System.out.println("7bits");}}
