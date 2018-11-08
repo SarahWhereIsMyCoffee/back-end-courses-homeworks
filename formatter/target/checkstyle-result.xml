@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="6.11.2">
+<file name="/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/package-info.java">
+</file>
+<file name="/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/reader/instance/StringReader.java">
+</file>
+<file name="/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/reader/instance/package-info.java">
+</file>
+<file name="/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/reader/IReader.java">
+</file>
+<file name="/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/reader/package-info.java">
+</file>
+<file name="/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/writer/instance/StringWriter.java">
+</file>
+<file name="/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/writer/instance/package-info.java">
+</file>
+<file name="/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/writer/package-info.java">
+</file>
+<file name="/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/writer/IWriter.java">
+</file>
+<file name="/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/Main.java">
+</file>
+<file name="/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/Formatter.java">
+</file>
+</checkstyle>

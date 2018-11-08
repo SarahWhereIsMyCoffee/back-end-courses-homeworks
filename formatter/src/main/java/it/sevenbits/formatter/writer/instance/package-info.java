@@ -1,8 +1,8 @@
 /**
- * This package contains instance of IWriter interface.
- * Need the writing symbols to string.
+ * This package contains all the instances of IWriter interface.
+ * Now it has only one instance - StringWriter.
  *
- * @author Gaziz Sattarov (sarahwhereismycoffee)
+ * @author Gaziz Sattarv (sarahwhereismytea)
  */
 
 package it.sevenbits.formatter.writer.instance;

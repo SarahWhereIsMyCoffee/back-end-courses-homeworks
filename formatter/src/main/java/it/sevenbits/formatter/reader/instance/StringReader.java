@@ -1,13 +1,23 @@
-package it.sevenbits.formatter;
+package it.sevenbits.formatter.reader.instance;
+
+import it.sevenbits.formatter.reader.IReader;
 
 import java.io.EOFException;
 import java.io.IOException;
 
+/**
+ * StringReader class implements of IReader interface.
+ * Not only overrides methods of implemented interface, but also has a constructor.
+ */
 public class StringReader implements IReader {
     private String string;
     private int index;
 
-    public StringReader(String string) {
+    /**
+     * Constructor for StringReader class
+     * @param string - methods gets some line from which we read chars
+     */
+    public StringReader(final String string) {
         this.string = string;
         index = 0;
     }

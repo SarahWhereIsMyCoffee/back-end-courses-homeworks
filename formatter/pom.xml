@@ -18,17 +18,31 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/java/it/sevenbits/formatter/resources</directory>
+                <directory>src/test/resources</directory>
                 <includes>
-                    <include> *.txt </include>
+                    <include>*.txt</include>
                 </includes>
             </resource>
         </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <useSystemClassLoader>false</useSystemClassLoader>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <!--<includes>-->
+                        <!--<include>it/sevenbits/formatter/*Test.java</include>-->
+                    <!--</includes>-->
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

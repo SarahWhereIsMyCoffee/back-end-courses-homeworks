@@ -1,0 +1,6 @@
+it/sevenbits/formatter/Main.class
+it/sevenbits/formatter/reader/instance/StringReader.class
+it/sevenbits/formatter/writer/IWriter.class
+it/sevenbits/formatter/writer/instance/StringWriter.class
+it/sevenbits/formatter/Formatter.class
+it/sevenbits/formatter/reader/IReader.class
