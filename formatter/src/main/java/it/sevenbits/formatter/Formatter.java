@@ -27,30 +27,30 @@ public class Formatter {
         int nestingLevel = 0;
         final int countOfSpaces = 4;
         char lastWrittenChar = 0;
-        char currentChar = 0;
-        char previousReadChar = 0;
-        while (reader.hasNext()) {
-            previousReadChar = lastWrittenChar;
-            currentChar = (char) reader.read();
+        char lastRememberedChar = 0;
+        char currentChar;
+        boolean quoteIsOpen = false;
 
+        while (reader.hasNext()) {
+
+            currentChar = (char) reader.read();
             if (currentChar == SYMBOL_CLOSED_BRACKET) {
                 nestingLevel--;
             }
 
-
             if (currentChar == SYMBOL_OPEN_BRACKET) {
-                if (previousReadChar != SYMBOL_SPACE && lastWrittenChar != 0 && lastWrittenChar != SYMBOL_NEW_LINE) {
+                if (lastWrittenChar != SYMBOL_SPACE && lastWrittenChar != 0 && lastWrittenChar != SYMBOL_NEW_LINE) {
                     writer.write(SYMBOL_SPACE);
                 }
                 /*  Делаю этот цикл, потому что остальным сделали замечание
                     насчёт отступов у открытых скобок.
-                    Ведь открытые скобки всегда стоят через пробел от условия.
+                    Ведь открытые скобки всегда стоят через пробел от условия, смысл делать им табуляцию О_о
                     Поэтому, хоть я и не согласен с этим, но всё же
                  */
                 if (lastWrittenChar == SYMBOL_NEW_LINE) {
                     for (int i = 0; i < countOfSpaces * nestingLevel; i++) {
                         writer.write(SYMBOL_SPACE);
-                    }
+                        }
                 }
                 nestingLevel++;
                 writer.write(currentChar + SYMBOL_NEW_LINE.toString());
@@ -60,7 +60,7 @@ public class Formatter {
                         writer.write(SYMBOL_NEW_LINE);
                         lastWrittenChar = SYMBOL_NEW_LINE;
             } else if (currentChar == SYMBOL_CLOSED_BRACKET) {
-                if (previousReadChar != SYMBOL_NEW_LINE) {
+                if (lastWrittenChar != SYMBOL_NEW_LINE) {
                     writer.write(SYMBOL_NEW_LINE);
                 }
                 for (int i = 0; i < countOfSpaces * nestingLevel; i++) {
@@ -71,8 +71,8 @@ public class Formatter {
             } else if (currentChar == SYMBOL_NEW_LINE) {
                 continue;
             } else if (currentChar == SYMBOL_SPACE) {
-                if (previousReadChar == SYMBOL_NEW_LINE || previousReadChar == SYMBOL_CLOSED_BRACKET
-                        || previousReadChar == SYMBOL_OPEN_BRACKET) {
+                if (lastWrittenChar == SYMBOL_NEW_LINE || lastWrittenChar == SYMBOL_CLOSED_BRACKET
+                        || lastWrittenChar == SYMBOL_OPEN_BRACKET) {
                     continue;
                 }
                 if (lastWrittenChar == SYMBOL_SPACE) {
@@ -82,7 +82,7 @@ public class Formatter {
                     lastWrittenChar = currentChar;
                 }
             } else {
-                if (previousReadChar == SYMBOL_NEW_LINE) {
+                if (lastWrittenChar == SYMBOL_NEW_LINE) {
                     for (int i = 0; i < countOfSpaces * nestingLevel; i++) {
                         writer.write(SYMBOL_SPACE);
                     }
