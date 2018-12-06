@@ -2,61 +2,59 @@ package it.sevenbits.formatter;
 
 import it.sevenbits.formatter.formatter.Formatter;
 import it.sevenbits.formatter.formatter.FormatterException;
+import it.sevenbits.formatter.formatter.IFormatter;
+import it.sevenbits.formatter.io.reader.FileReader;
 import it.sevenbits.formatter.io.reader.IReader;
-import it.sevenbits.formatter.io.reader.StringReader;
+import it.sevenbits.formatter.io.reader.ReaderException;
 import it.sevenbits.formatter.io.writer.IWriter;
-import it.sevenbits.formatter.io.writer.StringWriter;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import static org.junit.Assert.assertEquals;
 
 /**
  * With FormatterTest we can test our program. It contains 1 @before method to initialize formatter instance
- * and 3 tests with different examples of code.
+ * and 2 tests with different examples of code.
  */
 public class FormatterTest {
-    private Formatter formatter;
+    private IFormatter formatter;
+    private IReader reader;
+    private IWriter writer;
+
     @Before
     public void setUp() {
-        this.formatter = new Formatter();
+        formatter = new Formatter();
     }
 
     @Test
-    public void Test1() throws IOException {
-        InputStream fileStream = new FileInputStream(new File("src/test/resources/inputTextes/Text.txt"));
-        Reader fileReader = new InputStreamReader(fileStream, StandardCharsets.UTF_8);
-        int intValueOfChar;
-        StringBuilder stringBuilder = new StringBuilder();
-        while ((intValueOfChar = fileReader.read()) != -1) {
-            stringBuilder.append((char) intValueOfChar);
-        }
-        fileStream.close();
-        fileReader.close();
-        String textToFormat = stringBuilder.toString();
-
-        fileStream = new FileInputStream(new File("src/test/resources/textesShouldBeAfterFormatting/Text.txt"));
-        fileReader = new InputStreamReader(fileStream, StandardCharsets.UTF_8);
-        stringBuilder = new StringBuilder();
-        while ((intValueOfChar = fileReader.read()) != -1) {
-            stringBuilder.append((char) intValueOfChar);
-        }
-
-        fileReader.close();
-        String textShouldBe = stringBuilder.toString();
-
-        IReader stringReader = new StringReader(textToFormat);
-        IWriter stringWriter = new StringWriter();
+    public void shouldFormatCorrectlyAtFirst() throws FormatterException {
         try {
-            formatter.format(stringReader, stringWriter);
-        } catch (FormatterException e) {
+            reader = new FileReader("../formatter/src/test/resources/inputTextes/Text1.txt");
+        } catch (ReaderException e) {
             e.printStackTrace();
         }
-        String formattedText = stringWriter.toString();
 
-        fileStream.close();
-        fileReader.close();
-        assertEquals(formattedText, textShouldBe);
+        String string = formatter.format(reader, writer);
+        Assert.assertEquals(string, "{\n" +
+                "    {\n" +
+                "        something;\n" +
+                "    }\n" +
+                "}\n");
+    }
+
+    @Test
+    public void shouldFormatCorrectlyAtSecond() throws FormatterException {
+        try {
+            reader = new FileReader("../formatter/src/test/resources/inputTextes/Text2.txt");
+        } catch (ReaderException e) {
+            e.printStackTrace();
+        }
+
+        String string = formatter.format(reader, writer);
+        Assert.assertEquals(string, "{\n" +
+                "    {\n" +
+                "        {\n" +
+                "        }\n" +
+                "    }\n" +
+                "}");
     }
 }

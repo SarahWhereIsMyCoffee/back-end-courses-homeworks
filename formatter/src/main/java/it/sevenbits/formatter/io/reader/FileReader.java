@@ -1,14 +1,26 @@
 package it.sevenbits.formatter.io.reader;
 
-import it.sevenbits.formatter.io.reader.IReader;
-import it.sevenbits.formatter.io.reader.ReaderException;
-
-import java.io.*;
+import java.io.Closeable;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.StandardCharsets;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
+/**
+ * Class FileReader reads text from the specified file for the formatting.
+ */
 public class FileReader implements IReader, Closeable {
     private Reader reader;
 
+    /**
+     * Constructor of FileReader class
+     * @param filePath - String; path of the file, where we getting text.
+     * @throws ReaderException - Exception that can be thrown during the method work.
+     */
     public FileReader(final String filePath) throws ReaderException {
         final File inputFile = new File(filePath);
         try {
@@ -21,11 +33,20 @@ public class FileReader implements IReader, Closeable {
         }
     }
 
+    /**
+     * Method to check, if reader has next character
+     * @return - returns boolean: true if it has, false in different case.
+     */
     @Override
     public boolean hasNext() {
         return reader != null;
     }
 
+    /**
+     * Method to get next character.
+     * @return - next character
+     * @throws IOException - Exception that can be thrown during the method work.
+     */
     @Override
     public int read() throws IOException {
         if (reader == null) {
@@ -39,6 +60,10 @@ public class FileReader implements IReader, Closeable {
         return currentChar;
     }
 
+    /**
+     * Method for the closing of stream.
+     * @throws IOException - Exception that can be thrown during the method work.
+     */
     @Override
     public void close() throws IOException {
         reader.close();

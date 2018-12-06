@@ -6,5 +6,8 @@ import it.sevenbits.formatter.lexer.ILexer;
 import java.lang.reflect.InvocationTargetException;
 
 public interface ILexerFactory {
-    public ILexer createLexer(IReader reader) throws IllegalAccessException, InvocationTargetException, InstantiationException, LexerFactoryException;
+    ILexer createLexer(IReader reader) throws IllegalAccessException,
+            InvocationTargetException,
+            InstantiationException,
+            LexerFactoryException;
 }

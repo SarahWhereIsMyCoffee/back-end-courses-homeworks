@@ -9,7 +9,10 @@ import it.sevenbits.formatter.io.writer.IWriter;
 import it.sevenbits.formatter.io.writer.FileWriter;
 import it.sevenbits.formatter.io.writer.WriterException;
 
+import java.io.IOException;
+
 /**
+ * Class for the demonstration of formatting.
  */
 public final class Main {
     /**
@@ -34,6 +37,12 @@ public final class Main {
             String formattedText = formatter.format(reader, writer);
             System.out.println(formattedText);
         } catch (FormatterException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            ((FileWriter) writer).close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

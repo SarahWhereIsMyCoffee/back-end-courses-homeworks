@@ -7,11 +7,19 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * ILexer implementation that provides lexical analysis of Java source code.
+ */
 public class Lexer implements ILexer {
     private IReader reader;
     private int currentIntChar;
     private Map<Character, String> symbolsMap;
 
+    /**
+     * Here we declare some variables..
+     *
+     * @param reader - IReader instance, where we take string that will be format
+     */
     public Lexer(final IReader reader) {
         this.reader = reader;
         try {
@@ -20,15 +28,20 @@ public class Lexer implements ILexer {
             e.printStackTrace();
         }
         symbolsMap = new HashMap<>();
-        symbolsMap.put( '{', "SYMBOL_OPENING_BRACKET");
-        symbolsMap.put( '}', "SYMBOL_CLOSING_BRACKET");
-        symbolsMap.put( ';', "SYMBOL_SEMICOLON");
-        symbolsMap.put( ' ', "SYMBOL_SPACE");
-        symbolsMap.put( '\n', "SYMBOL_NEW_LINE");
+        symbolsMap.put('{', "SYMBOL_OPENING_BRACKET");
+        symbolsMap.put('}', "SYMBOL_CLOSING_BRACKET");
+        symbolsMap.put(';', "SYMBOL_SEMICOLON");
+        symbolsMap.put(' ', "SYMBOL_SPACE");
+        symbolsMap.put('\n', "SYMBOL_NEW_LINE");
     }
 
+    /**
+     *  Method that returns a single instance.
+     * @return Single instance.
+     * @throws LexerException Exception that can be thrown during the method work.
+     */
     @Override
-    public Token readToken() {
+    public Token readToken() throws LexerException {
         char currentChar = (char) currentIntChar;
         if (!hasNextToken()) {
             return null;
@@ -49,13 +62,18 @@ public class Lexer implements ILexer {
             try {
                 currentIntChar = reader.read();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new LexerException("Read error", e);
             }
             currentChar = (char) currentIntChar;
         }
         return new Token("DEFAULT_LEXEME", tokenBuilder.toString());
     }
 
+    /**
+     * Method that reports whether single instance is available for reading.
+     *
+     * @return Boolean value that indicates the result of method work.
+     */
     @Override
     public boolean hasNextToken() {
         return currentIntChar != -1;

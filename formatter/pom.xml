@@ -16,14 +16,6 @@
         </dependency>
     </dependencies>
     <build>
-        <resources>
-            <resource>
-                <directory>src/test/resources</directory>
-                <includes>
-                    <include>*.txt</include>
-                </includes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -39,9 +31,6 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                    <!--<includes>-->
-                        <!--<include>it/sevenbits/formatter/*Test.java</include>-->
-                    <!--</includes>-->
                 </configuration>
             </plugin>
             <plugin>

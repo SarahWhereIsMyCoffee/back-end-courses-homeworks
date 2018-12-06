@@ -1,7 +1,5 @@
 package it.sevenbits.formatter.io.writer;
 
-import it.sevenbits.formatter.io.writer.IWriter;
-
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
 import java.io.FileNotFoundException;
@@ -25,16 +23,30 @@ public class FileWriter implements IWriter, Closeable {
         }
     }
 
+    /**
+     * Method for the writing a symbol to file.
+     * @param character - symbol we append to the line
+     * @throws IOException
+     */
     @Override
-    public void write(char character) throws IOException {
+    public void write(final char character) throws IOException {
         writer.write(character);
     }
 
+    /**
+     *Method for the writing a string to file.
+     * @param string - string we append to the line
+     * @throws IOException - Exception that can be thrown during the method work.
+     */
     @Override
-    public void write(String string) throws IOException {
+    public void write(final String string) throws IOException {
         writer.write(string);
     }
 
+    /**
+     * Method for closing the stream.
+     * @throws IOException -  Exception that can be thrown during the method work.
+     */
     @Override
     public void close() throws IOException {
         writer.close();

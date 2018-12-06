@@ -1,5 +1,6 @@
 package it.sevenbits.formatter.formatter;
 
+import it.sevenbits.formatter.lexer.LexerException;
 import it.sevenbits.formatter.lexer.Token.Token;
 import it.sevenbits.formatter.io.reader.IReader;
 import it.sevenbits.formatter.io.writer.IWriter;
@@ -7,26 +8,32 @@ import it.sevenbits.formatter.lexer.ILexer;
 import it.sevenbits.formatter.lexer.lexerfactory.LexerFactory;
 import it.sevenbits.formatter.lexer.lexerfactory.LexerFactoryException;
 
+import java.io.IOException;
+
 /**
- *
+ * This method formats inputting string by taking lexemes and exposing the desired characters between them.
  */
 public class Formatter implements IFormatter {
     private LexerFactory lexerFactory;
 
     private static final Character SYMBOL_NEW_LINE = '\n';
-    private static final Character SYMBOL_OPENING_BRACKET = '{';
-    private static final Character SYMBOL_CLOSING_BRACKET = '}';
-    private static final Character SYMBOL_SEMICOLON = ';';
     private static final Character SYMBOL_SPACE = ' ';
     private static final String SYMBOL_INDENTION = "    ";
 
-    private static final String LEXEME_NAME_DEFAULT = "DEFAULT_LEXEME";
     private static final String LEXEME_NAME_SPACE = "SYMBOL_SPACE";
     private static final String LEXEME_NAME_SEMICOLON = "SYMBOL_SEMICOLON";
     private static final String LEXEME_NAME_NEW_LINE = "SYMBOL_NEW_LINE";
     private static final String LEXEME_NAME_OPENING_BRACKET = "SYMBOL_OPENING_BRACKET";
     private static final String LEXEME_NAME_CLOSING_BRACKET = "SYMBOL_CLOSING_BRACKET";
 
+    /**
+     * Method that performs formatting of Java source code that is stored in lexical tokens
+     * which are provided by ILexer instance.
+     * @param reader - IReader instance for getting string.
+     * @param writer - IWriter instance for writing formatted string.
+     * @return - returned string we got
+     * @throws FormatterException - Exception that can be thrown during the method work.
+     */
     @Override
     public String format(final IReader reader, final IWriter writer) throws FormatterException {
         lexerFactory = new LexerFactory();
@@ -37,12 +44,17 @@ public class Formatter implements IFormatter {
             throw new FormatterException("ALO", e);
         }
 
-        Token currentToken;
+        Token currentToken = null;
         StringBuilder stringBuilder = new StringBuilder();
         int nestingLevel = 0;
 
         while (lexer.hasNextToken()) {
-            currentToken = lexer.readToken();
+            try {
+                currentToken = lexer.readToken();
+            } catch (LexerException e) {
+                e.printStackTrace();
+            }
+
             if (currentToken.getName().equals(LEXEME_NAME_NEW_LINE)
                     || (currentToken.getName().equals(LEXEME_NAME_SPACE) &&
                         stringBuilder.toString().endsWith(SYMBOL_NEW_LINE.toString()))) {
@@ -80,7 +92,11 @@ public class Formatter implements IFormatter {
                 stringBuilder.append(currentToken.getLexeme());
             }
         }
-
+        try {
+            writer.write(stringBuilder.toString());
+        } catch (IOException e) {
+            throw new FormatterException("Unable to write");
+        }
         return stringBuilder.toString();
     }
 }

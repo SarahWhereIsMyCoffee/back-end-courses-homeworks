@@ -20,7 +20,7 @@ public class LexerFactory implements ILexerFactory {
     }
 
     @Override
-    public ILexer createLexer(IReader reader) throws LexerFactoryException {
+    public ILexer createLexer(final IReader reader) throws LexerFactoryException {
         if (reader == null) {
             throw new LexerFactoryException("Null passed as argument");
         }

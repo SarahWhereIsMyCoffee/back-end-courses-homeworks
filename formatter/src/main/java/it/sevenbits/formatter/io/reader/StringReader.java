@@ -12,7 +12,6 @@ import java.io.IOException;
 public class StringReader implements IReader {
     private String string;
     private int index;
-
     /**
      * Constructor for StringReader class
      * @param string - methods gets some line from which we read chars
@@ -22,11 +21,19 @@ public class StringReader implements IReader {
         index = 0;
     }
 
+    /**
+     * Method to check, if reader has next character
+     * @return - returns boolean: true if it has, false in different case.
+     */
     @Override
     public boolean hasNext() {
         return index < string.length();
     }
-
+    /**
+     * Method to get next character.
+     * @return - next character
+     * @throws IOException - Exception that can be thrown during the method work.
+     */
     @Override
     public int read() throws IOException {
         if (!hasNext()) {

@@ -1,10 +1,19 @@
-#Sat Nov 10 00:37:40 OMST 2018
-/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/package-info.java=1541719147000
-/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/reader/IReader.java=1541720442000
-/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/reader/instance/package-info.java=1541719147000
-/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/writer/instance/package-info.java=1541719147000
-/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/Main.java=1541720589000
-/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/reader/package-info.java=1541719147000
-/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/writer/package-info.java=1541719147000
+#Thu Dec 06 10:28:21 OMST 2018
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/io/writer/package-info.java=1544057388000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/lexer/package-info.java=1544057900000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/io/writer/WriterException.java=1544057564000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/package-info.java=1544058012000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/formatter/package-info.java=1544056946000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/formatter/IFormatter.java=1544069590000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/io/reader/ReaderException.java=1544057388000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/lexer/Token/IToken.java=1544070256000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/lexer/lexerfactory/package-info.java=1544057936000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/io/reader/package-info.java=1544057388000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/formatter/FormatterException.java=1544069549000
 configuration*?=630D69849A8DC38CBE0E9EB88617A6EB32CBD935
-/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/writer/IWriter.java=1541720442000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/lexer/Token/package-info.java=1544057901000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/io/reader/IReader.java=1543430664000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/io/writer/IWriter.java=1543430664000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/lexer/lexerfactory/LexerFactoryException.java=1543922783000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/Main.java=1544068923000
+/home/gaziz/Projects/back-end-courses-homeworks/formatter/src/main/java/it/sevenbits/formatter/lexer/ILexer.java=1544070146000
