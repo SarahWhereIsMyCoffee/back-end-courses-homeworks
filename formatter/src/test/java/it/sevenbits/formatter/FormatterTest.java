@@ -6,7 +6,9 @@ import it.sevenbits.formatter.formatter.IFormatter;
 import it.sevenbits.formatter.io.reader.FileReader;
 import it.sevenbits.formatter.io.reader.IReader;
 import it.sevenbits.formatter.io.reader.ReaderException;
+import it.sevenbits.formatter.io.writer.FileWriter;
 import it.sevenbits.formatter.io.writer.IWriter;
+import it.sevenbits.formatter.io.writer.WriterException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,8 +30,14 @@ public class FormatterTest {
     @Test
     public void shouldFormatCorrectlyAtFirst() throws FormatterException {
         try {
-            reader = new FileReader("../formatter/src/test/resources/inputTextes/Text1.txt");
+            reader = new FileReader("../formatter/src/test/resources/inputTexts/Text1.txt");
         } catch (ReaderException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            writer = new FileWriter("../formatter/src/test/resources/outputTexts/Text.txt");
+        } catch (WriterException e) {
             e.printStackTrace();
         }
 
@@ -44,8 +52,14 @@ public class FormatterTest {
     @Test
     public void shouldFormatCorrectlyAtSecond() throws FormatterException {
         try {
-            reader = new FileReader("../formatter/src/test/resources/inputTextes/Text2.txt");
+            reader = new FileReader("../formatter/src/test/resources/inputTexts/Text2.txt");
         } catch (ReaderException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            writer = new FileWriter("../formatter/src/test/resources/outputTexts/Text.txt");
+        } catch (WriterException e) {
             e.printStackTrace();
         }
 
@@ -55,6 +69,6 @@ public class FormatterTest {
                 "        {\n" +
                 "        }\n" +
                 "    }\n" +
-                "}");
+                "}\n");
     }
 }
