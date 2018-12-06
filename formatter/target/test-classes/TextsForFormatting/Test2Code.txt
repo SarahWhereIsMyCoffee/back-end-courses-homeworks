@@ -1,3 +1,0 @@
-int                   sum;
-        sum = this.pairSummater.sum(original);
-        Assert.assertEquals(26, sum);

@@ -1,9 +1,11 @@
 package it.sevenbits.formatter;
 
-import it.sevenbits.formatter.reader.IReader;
-import it.sevenbits.formatter.reader.instance.StringReader;
-import it.sevenbits.formatter.writer.IWriter;
-import it.sevenbits.formatter.writer.instance.StringWriter;
+import it.sevenbits.formatter.formatter.Formatter;
+import it.sevenbits.formatter.formatter.FormatterException;
+import it.sevenbits.formatter.io.reader.IReader;
+import it.sevenbits.formatter.io.reader.StringReader;
+import it.sevenbits.formatter.io.writer.IWriter;
+import it.sevenbits.formatter.io.writer.StringWriter;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.*;
@@ -23,7 +25,7 @@ public class FormatterTest {
 
     @Test
     public void Test1() throws IOException {
-        InputStream fileStream = new FileInputStream(new File("src/test/resources/TextsForFormatting/Test1Code.txt"));
+        InputStream fileStream = new FileInputStream(new File("src/test/resources/inputTextes/Text.txt"));
         Reader fileReader = new InputStreamReader(fileStream, StandardCharsets.UTF_8);
         int intValueOfChar;
         StringBuilder stringBuilder = new StringBuilder();
@@ -34,7 +36,7 @@ public class FormatterTest {
         fileReader.close();
         String textToFormat = stringBuilder.toString();
 
-        fileStream = new FileInputStream(new File("src/test/resources/TextsShouldBeAfterFormatting/Test1CodeFormatted.txt"));
+        fileStream = new FileInputStream(new File("src/test/resources/textesShouldBeAfterFormatting/Text.txt"));
         fileReader = new InputStreamReader(fileStream, StandardCharsets.UTF_8);
         stringBuilder = new StringBuilder();
         while ((intValueOfChar = fileReader.read()) != -1) {
@@ -42,67 +44,15 @@ public class FormatterTest {
         }
 
         fileReader.close();
-        String textShouldBe = stringBuilder.toString();
-
-        IReader stringReader = new it.sevenbits.formatter.reader.instance.StringReader(textToFormat);
-        IWriter stringWriter = new it.sevenbits.formatter.writer.instance.StringWriter();
-        formatter.format(stringReader, stringWriter);
-        String formattedText = stringWriter.toString();
-
-        fileStream.close();
-        fileReader.close();
-        assertEquals(formattedText, textShouldBe);
-    }
-    @Test
-    public void Test2() throws IOException {
-        InputStream fileStream = new FileInputStream(new File("src/test/resources/TextsForFormatting/Test2Code.txt"));
-        Reader fileReader = new InputStreamReader(fileStream, StandardCharsets.UTF_8);
-        int intValueOfChar;
-        StringBuilder stringBuilder = new StringBuilder();
-        while ((intValueOfChar = fileReader.read()) != -1) {
-            stringBuilder.append((char) intValueOfChar);
-        }
-        String textToFormat = stringBuilder.toString();
-
-        fileStream = new FileInputStream(new File("src/test/resources/TextsShouldBeAfterFormatting/Test2CodeFormatted.txt"));
-        fileReader = new InputStreamReader(fileStream, StandardCharsets.UTF_8);
-        stringBuilder = new StringBuilder();
-        while ((intValueOfChar = fileReader.read()) != -1) {
-            stringBuilder.append((char) intValueOfChar);
-        }
-        String textShouldBe = stringBuilder.toString();
-
-        IReader stringReader = new it.sevenbits.formatter.reader.instance.StringReader(textToFormat);
-        IWriter stringWriter = new it.sevenbits.formatter.writer.instance.StringWriter();
-        formatter.format(stringReader, stringWriter);
-        String formattedText = stringWriter.toString();
-
-        fileStream.close();
-        fileReader.close();
-        assertEquals(formattedText, textShouldBe);
-    }
-    @Test
-    public void Test3() throws IOException {
-       InputStream fileStream = new FileInputStream(new File("src/test/resources/TextsForFormatting/Test3Code.txt"));
-        Reader fileReader = new InputStreamReader(fileStream, StandardCharsets.UTF_8);
-        int intValueOfChar;
-        StringBuilder stringBuilder = new StringBuilder();
-        while ((intValueOfChar = fileReader.read()) != -1) {
-            stringBuilder.append((char) intValueOfChar);
-        }
-        String textToFormat = stringBuilder.toString();
-
-        fileStream = new FileInputStream(new File("src/test/resources/TextsShouldBeAfterFormatting/Test3CodeFormatted.txt"));
-        fileReader = new InputStreamReader(fileStream, StandardCharsets.UTF_8);
-        stringBuilder = new StringBuilder();
-        while ((intValueOfChar = fileReader.read()) != -1) {
-            stringBuilder.append((char) intValueOfChar);
-        }
         String textShouldBe = stringBuilder.toString();
 
         IReader stringReader = new StringReader(textToFormat);
         IWriter stringWriter = new StringWriter();
-        formatter.format(stringReader, stringWriter);
+        try {
+            formatter.format(stringReader, stringWriter);
+        } catch (FormatterException e) {
+            e.printStackTrace();
+        }
         String formattedText = stringWriter.toString();
 
         fileStream.close();

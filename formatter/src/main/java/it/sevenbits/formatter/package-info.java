@@ -1,7 +1,5 @@
 /**
- * This package contains Main and Formatter classes.
- * Also it has two packages with interfaces and instances of writer and reader,
- * that using in our Formatter
+ * This package contains the main class, where you can see the formatting of code.
  *
  * @author Gaziz Sattarov (sarahwhereismycoffee)
  */
