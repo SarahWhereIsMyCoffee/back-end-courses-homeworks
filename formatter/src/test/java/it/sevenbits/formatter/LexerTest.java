@@ -4,7 +4,7 @@ import it.sevenbits.formatter.io.reader.FileReader;
 import it.sevenbits.formatter.io.reader.IReader;
 import it.sevenbits.formatter.io.reader.ReaderException;
 import it.sevenbits.formatter.lexer.ILexer;
-import it.sevenbits.formatter.lexer.Lexer;
+import it.sevenbits.formatter.lexer.statemachine.Lexer;
 import it.sevenbits.formatter.lexer.LexerException;
 import it.sevenbits.formatter.lexer.Token.IToken;
 import org.junit.Assert;

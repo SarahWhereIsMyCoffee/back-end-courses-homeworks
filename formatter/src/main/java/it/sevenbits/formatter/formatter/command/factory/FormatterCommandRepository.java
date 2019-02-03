@@ -4,7 +4,6 @@ import it.sevenbits.formatter.formatter.command.commandArgs.FormatterCommandArgs
 import it.sevenbits.formatter.formatter.command.commands.IgnoreFormatterCommand;
 import it.sevenbits.formatter.formatter.command.commands.WritingDefaultFormatterCommand;
 import it.sevenbits.formatter.formatter.command.commands.IFormatterCommand;
-import it.sevenbits.formatter.formatter.command.commands.IndentFormatterCommand;
 import it.sevenbits.formatter.formatter.command.commands.WritingWithNewLineAfterFormatterCommand;
 import it.sevenbits.formatter.formatter.command.commands.WritingWithNewLineBeforeFormatterCommand;
 import it.sevenbits.formatter.formatter.command.commands.WritingWithSpaceBeforeAndNewLineAfterFormatterCommand;

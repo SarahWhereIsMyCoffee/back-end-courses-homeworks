@@ -1,7 +1,14 @@
-package it.sevenbits.formatter.lexer;
+package it.sevenbits.formatter.lexer.statemachine;
 
 import it.sevenbits.formatter.io.reader.IReader;
+import it.sevenbits.formatter.lexer.ILexer;
+import it.sevenbits.formatter.lexer.LexerException;
+import it.sevenbits.formatter.lexer.LexerState;
+import it.sevenbits.formatter.lexer.Token.IToken;
 import it.sevenbits.formatter.lexer.Token.Token;
+import it.sevenbits.formatter.lexer.command.ILexerCommand;
+import it.sevenbits.formatter.lexer.command.LexerCommandArgs;
+import it.sevenbits.formatter.lexer.factory.LexerCommandRepository;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,12 +29,22 @@ public class Lexer implements ILexer {
     private Character SYMBOL_NEW_LINE = '\n';
     private Character SYMBOL_SLASH = '/';
 
+    private LexerCommandArgs lexerCommandArgs;
+    private LexerStateTransition lexerStateTransition;
+    private LexerCommandRepository lexerCommandRepository;
+
+    private LexerState currentState = null;
+    private ILexerCommand currentCommand;
     /**
      * Here we declare some variables..
      *
      * @param reader - IReader instance, where we take string that will be format
      */
     public Lexer(final IReader reader) {
+        lexerStateTransition = new LexerStateTransition();
+        lexerCommandArgs = new LexerCommandArgs();
+        lexerCommandRepository = new LexerCommandRepository(lexerCommandArgs);
+
         this.reader = reader;
         try {
             currentIntChar = this.reader.read();
@@ -63,7 +80,10 @@ public class Lexer implements ILexer {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return new Token(tokenName, currentChar);
+            currentState = lexerStateTransition.nextState(currentChar);
+            currentCommand = lexerCommandRepository.getCommand(currentState);
+
+            return currentCommand.execute();
         }
 
         while (symbolsMap.get(currentChar) == null && hasNextToken()) {
@@ -75,7 +95,11 @@ public class Lexer implements ILexer {
             }
             currentChar = (char) currentIntChar;
         }
-        return new Token("LEXEME_DEFAULT", tokenBuilder.toString());
+        currentState = new LexerState("DEFAULT_STATE");
+        lexerCommandArgs.setLexeme(tokenBuilder.toString());
+        currentCommand = lexerCommandRepository.getCommand(currentState);
+
+        return currentCommand.execute();
     }
 
     /**
