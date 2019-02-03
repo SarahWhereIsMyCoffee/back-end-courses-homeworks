@@ -1,8 +1,8 @@
 package it.sevenbits.formatter;
 
-import it.sevenbits.formatter.formatter.Formatter;
-import it.sevenbits.formatter.formatter.FormatterException;
-import it.sevenbits.formatter.formatter.IFormatter;
+import it.sevenbits.formatter.commonFormatter.Formatter;
+import it.sevenbits.formatter.commonFormatter.FormatterException;
+import it.sevenbits.formatter.commonFormatter.IFormatter;
 import it.sevenbits.formatter.io.reader.FileReader;
 import it.sevenbits.formatter.io.reader.IReader;
 import it.sevenbits.formatter.io.reader.ReaderException;
@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * With FormatterTest we can test our program. It contains 1 @before method to initialize formatter instance
+ * With FormatterTest we can test our program. It contains 1 @before method to initialize commonFormatter instance
  * and 2 tests with different examples of code.
  */
 public class FormatterTest {
@@ -30,13 +30,13 @@ public class FormatterTest {
     @Test
     public void shouldFormatCorrectlyAtFirst() throws FormatterException {
         try {
-            reader = new FileReader("../formatter/src/test/resources/inputTexts/Text1.txt");
+            reader = new FileReader("../commonFormatter/src/test/resources/inputTexts/Text1.txt");
         } catch (ReaderException e) {
             e.printStackTrace();
         }
 
         try {
-            writer = new FileWriter("../formatter/src/test/resources/outputTexts/Text.txt");
+            writer = new FileWriter("../commonFormatter/src/test/resources/outputTexts/Text.txt");
         } catch (WriterException e) {
             e.printStackTrace();
         }
@@ -52,13 +52,13 @@ public class FormatterTest {
     @Test
     public void shouldFormatCorrectlyAtSecond() throws FormatterException {
         try {
-            reader = new FileReader("../formatter/src/test/resources/inputTexts/Text2.txt");
+            reader = new FileReader("../commonFormatter/src/test/resources/inputTexts/Text2.txt");
         } catch (ReaderException e) {
             e.printStackTrace();
         }
 
         try {
-            writer = new FileWriter("../formatter/src/test/resources/outputTexts/Text.txt");
+            writer = new FileWriter("../commonFormatter/src/test/resources/outputTexts/Text.txt");
         } catch (WriterException e) {
             e.printStackTrace();
         }

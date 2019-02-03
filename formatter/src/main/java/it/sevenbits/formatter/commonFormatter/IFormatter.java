@@ -1,4 +1,4 @@
-package it.sevenbits.formatter.formatter;
+package it.sevenbits.formatter.commonFormatter;
 
 import it.sevenbits.formatter.io.reader.IReader;
 import it.sevenbits.formatter.io.writer.IWriter;

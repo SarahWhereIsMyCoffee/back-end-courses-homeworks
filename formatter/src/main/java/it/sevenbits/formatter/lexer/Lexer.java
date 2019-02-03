@@ -15,6 +15,13 @@ public class Lexer implements ILexer {
     private int currentIntChar;
     private Map<Character, String> symbolsMap;
 
+    private Character SYMBOL_OPENING_BRACKET = '{';
+    private Character SYMBOL_CLOSING_BRACKET = '}';
+    private Character SYMBOL_SEMICOLON = ';';
+    private Character SYMBOL_SPACE = ' ';
+    private Character SYMBOL_NEW_LINE = '\n';
+    private Character SYMBOL_SLASH = '/';
+
     /**
      * Here we declare some variables..
      *
@@ -27,12 +34,14 @@ public class Lexer implements ILexer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         symbolsMap = new HashMap<>();
-        symbolsMap.put('{', "SYMBOL_OPENING_BRACKET");
-        symbolsMap.put('}', "SYMBOL_CLOSING_BRACKET");
-        symbolsMap.put(';', "SYMBOL_SEMICOLON");
-        symbolsMap.put(' ', "SYMBOL_SPACE");
-        symbolsMap.put('\n', "SYMBOL_NEW_LINE");
+        symbolsMap.put(SYMBOL_OPENING_BRACKET, "LEXEME_OPENING_CURLY_BRACKET");
+        symbolsMap.put(SYMBOL_CLOSING_BRACKET, "LEXEME_CLOSING_CURLY_BRACKET");
+        symbolsMap.put(SYMBOL_SEMICOLON, "LEXEME_SEMICOLON");
+        symbolsMap.put(SYMBOL_SPACE, "LEXEME_SPACE");
+        symbolsMap.put(SYMBOL_NEW_LINE, "LEXEME_NEW_LINE");
+        symbolsMap.put(SYMBOL_SLASH, "LEXEME_SLASH");
     }
 
     /**
@@ -66,7 +75,7 @@ public class Lexer implements ILexer {
             }
             currentChar = (char) currentIntChar;
         }
-        return new Token("DEFAULT_LEXEME", tokenBuilder.toString());
+        return new Token("LEXEME_DEFAULT", tokenBuilder.toString());
     }
 
     /**

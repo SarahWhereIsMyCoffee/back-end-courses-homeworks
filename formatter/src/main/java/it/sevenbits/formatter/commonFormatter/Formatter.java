@@ -1,6 +1,5 @@
-package it.sevenbits.formatter.formatter;
+package it.sevenbits.formatter.commonFormatter;
 
-import it.sevenbits.formatter.lexer.LexerException;
 import it.sevenbits.formatter.lexer.Token.Token;
 import it.sevenbits.formatter.io.reader.IReader;
 import it.sevenbits.formatter.io.writer.IWriter;
@@ -21,10 +20,12 @@ public class Formatter implements IFormatter {
     private static final String SYMBOL_INDENTION = "    ";
 
     private static final String LEXEME_NAME_SPACE = "SYMBOL_SPACE";
-    private static final String LEXEME_NAME_SEMICOLON = "SYMBOL_SEMICOLON";
+    private static final String LEXEME_NAME_SEMICOLON = " ";
     private static final String LEXEME_NAME_NEW_LINE = "SYMBOL_NEW_LINE";
     private static final String LEXEME_NAME_OPENING_BRACKET = "SYMBOL_OPENING_BRACKET";
     private static final String LEXEME_NAME_CLOSING_BRACKET = "SYMBOL_CLOSING_BRACKET";
+
+
 
     /**
      * Method that performs formatting of Java source code that is stored in lexical tokens
@@ -46,8 +47,8 @@ public class Formatter implements IFormatter {
 
         Token currentToken = null;
         StringBuilder stringBuilder = new StringBuilder();
-        int nestingLevel = 0;
-
+        Integer nestingLevel = 0;
+/*
         while (lexer.hasNextToken()) {
             try {
                 currentToken = lexer.readToken();
@@ -70,7 +71,6 @@ public class Formatter implements IFormatter {
                     stringBuilder.append(SYMBOL_INDENTION);
                 }
             }
-
             if (currentToken.getName().equals(LEXEME_NAME_OPENING_BRACKET)) {
                 nestingLevel++;
                 if (!stringBuilder.toString().endsWith(SYMBOL_SPACE.toString()) && stringBuilder.length() != 0) {
@@ -89,14 +89,19 @@ public class Formatter implements IFormatter {
                 }
                 stringBuilder.append(currentToken.getLexeme()).append(SYMBOL_NEW_LINE);
             } else {
-                stringBuilder.append(currentToken.getLexeme());
+                if (!(currentToken.getName().equals(LEXEME_NAME_SPACE) &&
+                        stringBuilder.toString().endsWith(SYMBOL_SPACE.toString()))) {
+                    stringBuilder.append(currentToken.getLexeme());
+                }
             }
         }
+
         try {
             writer.write(stringBuilder.toString());
         } catch (IOException e) {
             throw new FormatterException("Unable to write");
         }
+        */
         return stringBuilder.toString();
     }
 }

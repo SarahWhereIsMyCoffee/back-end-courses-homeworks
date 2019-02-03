@@ -17,7 +17,7 @@ public class LexerTest {
     @Test
     public void shouldWorkCorrectlyAtFirst() throws LexerException {
         try {
-            reader = new FileReader("../formatter/src/test/resources/inputTexts/Text1.txt");
+            reader = new FileReader("../commonFormatter/src/test/resources/inputTexts/Text1.txt");
         } catch (ReaderException e) {
             e.printStackTrace();
         }

@@ -4,4 +4,4 @@
  * @author Gaziz Sattarov (sarahwhereismycoffee)
  */
 
-package it.sevenbits.formatter.formatter;
+package it.sevenbits.formatter.commonFormatter;
