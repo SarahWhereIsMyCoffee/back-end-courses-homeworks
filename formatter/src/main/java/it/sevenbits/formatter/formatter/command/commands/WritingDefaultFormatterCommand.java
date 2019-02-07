@@ -1,6 +1,6 @@
 package it.sevenbits.formatter.formatter.command.commands;
 
-import it.sevenbits.formatter.formatter.command.commandargs.FormatterCommandArgs;
+import it.sevenbits.formatter.formatter.command.util.FormatterCommandArgs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,9 +9,9 @@ import java.io.IOException;
 public class WritingDefaultFormatterCommand implements IFormatterCommand {
     private FormatterCommandArgs formatterCommandArgs;
     private IFormatterCommand indentFormatterCommand;
-    final static Logger LOGGER = LoggerFactory.getLogger(WritingDefaultFormatterCommand.class);
+    private final Logger logger = LoggerFactory.getLogger(WritingDefaultFormatterCommand.class);
 
-    public WritingDefaultFormatterCommand(FormatterCommandArgs formatterCommandArgs) {
+    public WritingDefaultFormatterCommand(final FormatterCommandArgs formatterCommandArgs) {
         this.formatterCommandArgs = formatterCommandArgs;
         indentFormatterCommand = new IndentFormatterCommand(formatterCommandArgs);
     }
@@ -19,7 +19,7 @@ public class WritingDefaultFormatterCommand implements IFormatterCommand {
     @Override
     public void execute() {
         indentFormatterCommand.execute();
-        LOGGER.info("WritingDefaultFormatterCommand execute method was called");
+        logger.info("WritingDefaultFormatterCommand execute method was called");
         try {
             formatterCommandArgs.getWriter().write(formatterCommandArgs.getCurrentLexeme());
         } catch (IOException e) {

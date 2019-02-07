@@ -1,14 +1,17 @@
-package it.sevenbits.formatter.formatter.command.commandargs;
+package it.sevenbits.formatter.formatter.command.util;
 
 import it.sevenbits.formatter.io.writer.IWriter;
 
+/**
+ * This class is a container for providing some instances we need during the program
+ */
 public class FormatterCommandArgs {
     private int nestingLevel;
     private IWriter writer;
     private String currentLexeme;
     private String lastWrittenLexeme = "";
 
-    public FormatterCommandArgs(IWriter writer) {
+    public FormatterCommandArgs(final IWriter writer) {
         this.writer = writer;
     }
     public int getNestingLevel() {
@@ -35,19 +38,11 @@ public class FormatterCommandArgs {
         return lastWrittenLexeme;
     }
 
-    public void setNestingLevel(int nestingLevel) {
-        this.nestingLevel = nestingLevel;
-    }
-
-    public void setWriter(IWriter writer) {
-        this.writer = writer;
-    }
-
-    public void setCurrentLexeme(String currentLexeme) {
+    public void setCurrentLexeme(final String currentLexeme) {
         this.currentLexeme = currentLexeme;
     }
 
-    public void setLastWrittenLexeme(String lastWrittenLexeme) {
+    public void setLastWrittenLexeme(final String lastWrittenLexeme) {
         this.lastWrittenLexeme = lastWrittenLexeme;
     }
 }

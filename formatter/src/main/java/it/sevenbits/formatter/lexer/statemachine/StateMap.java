@@ -1,13 +1,15 @@
 package it.sevenbits.formatter.lexer.statemachine;
 
 import it.sevenbits.formatter.pair.Pair;
-
 import java.util.HashMap;
 import java.util.Map;
 
-public class LexerStateMap {
-    private Map<Pair<LexerState, Character>, LexerState> lexerStateMap;
-    private Map<LexerState, LexerState> defaultStateMap;
+/**
+ * This class allows for transition from one state to another.
+ */
+public class StateMap {
+    private Map<Pair<State, Character>, State> lexerStateMap;
+    private Map<State, State> defaultStateMap;
 
     private static final Character SYMBOL_OPENING_CURLY_BRACKET = '{';
     private static final Character SYMBOL_CLOSING_CURLY_BRACKET = '}';
@@ -17,20 +19,29 @@ public class LexerStateMap {
     private static final Character SYMBOL_SLASH = '/';
     private static final Character SYMBOL_STAR = '*';
 
-    private static final LexerState OPENING_CURLY_BRACKET_STATE = new LexerState("OPENING_CURLY_BRACKET_STATE");
-    private static final LexerState CLOSING_CURLY_BRACKET_STATE = new LexerState("CLOSING_CURLY_BRACKET_STATE");
-    private static final LexerState SEMICOLON_STATE = new LexerState("SEMICOLON_STATE");
-    private static final LexerState SPACE_STATE = new LexerState("SPACE_STATE");
-    private static final LexerState NEW_LINE_STATE = new LexerState("NEW_LINE_STATE");
-    private static final LexerState POTENTIONAL_COMMENT_STATE = new LexerState("POTENTIONAL_COMMENT_STATE");
-    private static final LexerState LINE_COMMENT_STATE = new LexerState("LINE_COMMENT_STATE");
-    private static final LexerState BLOCK_COMMENT_STATE = new LexerState("BLOCK_COMMENT_STATE");
-    private static final LexerState POTENTIONAL_END_OF_BLOCK_COMMENT_STATE = new LexerState("POTENTIONAL_END_OF_BLOCK_COMMENT_STATE");
-    private static final LexerState END_OF_LEXEME_STATE = new LexerState("END_OF_LEXEME_STATE");
-    private static final LexerState DEFAULT_STATE = new LexerState("DEFAULT_STATE");
+    private static final State START_STATE = new State("START_STATE");
+    private static final State OPENING_CURLY_BRACKET_STATE = new State("OPENING_CURLY_BRACKET_STATE");
+    private static final State CLOSING_CURLY_BRACKET_STATE = new State("CLOSING_CURLY_BRACKET_STATE");
+    private static final State SEMICOLON_STATE = new State("SEMICOLON_STATE");
+    private static final State SPACE_STATE = new State("SPACE_STATE");
+    private static final State NEW_LINE_STATE = new State("NEW_LINE_STATE");
+    private static final State POTENTIONAL_COMMENT_STATE = new State("POTENTIONAL_COMMENT_STATE");
+    private static final State LINE_COMMENT_STATE = new State("LINE_COMMENT_STATE");
+    private static final State BLOCK_COMMENT_STATE = new State("BLOCK_COMMENT_STATE");
+    private static final State POTENTIONAL_END_OF_BLOCK_COMMENT_STATE = new State("POTENTIONAL_END_OF_BLOCK_COMMENT_STATE");
+    private static final State END_OF_LEXEME_STATE = new State("END_OF_LEXEME_STATE");
+    private static final State DEFAULT_STATE = new State("DEFAULT_STATE");
 
 
-    public LexerStateMap() {
+    /**
+     * Constructor of StateMap class.
+     * Here we declare two HashMaps: lexerStateMap and defaultStateMap.
+     *
+     * First map allows to get a new state by previous state and new symbol we got form reader.
+     * Second map allows to get a new state by read symbol, that is necessary if some state
+     * should depends only on read symbol regardless current state.
+     */
+    public StateMap() {
         lexerStateMap = new HashMap<>();
         defaultStateMap = new HashMap<>();
 
@@ -40,6 +51,7 @@ public class LexerStateMap {
         defaultStateMap.put(SEMICOLON_STATE, END_OF_LEXEME_STATE);
         defaultStateMap.put(SPACE_STATE, END_OF_LEXEME_STATE);
         defaultStateMap.put(NEW_LINE_STATE, END_OF_LEXEME_STATE);
+        defaultStateMap.put(START_STATE, END_OF_LEXEME_STATE);
 
 
         lexerStateMap.put(new Pair<>(POTENTIONAL_COMMENT_STATE, SYMBOL_OPENING_CURLY_BRACKET), END_OF_LEXEME_STATE);
@@ -91,12 +103,24 @@ public class LexerStateMap {
         lexerStateMap.put(new Pair<>(DEFAULT_STATE, SYMBOL_STAR), DEFAULT_STATE);
     }
 
-    public LexerState getNextState(LexerState lexerState, Character character) {
+    /**
+     * This method returns a new lexer state by necessary value from state HashMap.
+     *
+     * @param lexerState - current lexer state.
+     * @param character - transferred from Reader symbol.
+     * @return - State implementation.
+     */
+    public State getNextState(final State lexerState, final Character character) {
         return lexerStateMap.getOrDefault(new Pair<>(lexerState, character),
-                defaultStateMap.getOrDefault(lexerState, new LexerState("DEFAULT_STATE")));
+                defaultStateMap.getOrDefault(lexerState, new State("DEFAULT_STATE")));
     }
 
-    public LexerState getStartState() {
-        return new LexerState("START_STATE");
+    /**
+     * This method returns the start lexer state.
+     *
+     * @return - State implementation.
+     */
+    public State getStartState() {
+        return START_STATE;
     }
 }

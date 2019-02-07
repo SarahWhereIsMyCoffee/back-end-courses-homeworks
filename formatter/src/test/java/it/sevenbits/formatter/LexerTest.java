@@ -4,7 +4,7 @@ import it.sevenbits.formatter.io.reader.FileReader;
 import it.sevenbits.formatter.io.reader.IReader;
 import it.sevenbits.formatter.io.reader.ReaderException;
 import it.sevenbits.formatter.lexer.statemachine.ILexer;
-import it.sevenbits.formatter.lexer.statemachine.LexerStateMachine;
+import it.sevenbits.formatter.lexer.statemachine.StateMachine;
 import it.sevenbits.formatter.lexer.statemachine.LexerException;
 import it.sevenbits.formatter.lexer.Token.IToken;
 import org.junit.Assert;
@@ -21,7 +21,7 @@ public class LexerTest {
         } catch (ReaderException e) {
             e.printStackTrace();
         }
-        lexer = new LexerStateMachine(reader);
+        lexer = new StateMachine(reader);
 
         IToken token = lexer.readToken();
         Assert.assertEquals(token.getLexeme(), "{");

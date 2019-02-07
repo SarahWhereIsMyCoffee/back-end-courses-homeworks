@@ -8,7 +8,7 @@ public class FormatterStateTransition {
         this.stateMap = new FormatterStateMap();
     }
 
-    public FormatterState nextState(String tokenName) {
+    public FormatterState nextState(final String tokenName) {
         return stateMap.getNextState(tokenName);
     }
 

@@ -16,7 +16,6 @@ public class FormatterStateMap {
     private static final String NEW_LINE_LEXEME_NAME = "LEXEME_NEW_LINE";
     private static final String LINE_COMMENT_LEXEME_NAME = "LEXEME_LINE_COMMENT_STATE";
     private static final String BLOCK_COMMENT_LEXEME_NAME = "LEXEME_BLOCK_COMMENT_STATE";
-    private static final String DEFAULT_LEXEME_NAME = "LEXEME_DEFAULT";
 
     private FormatterState START_FORMATTER_STATE;
     private FormatterState OPENING_CURLY_BRACKET_FORMATTER_STATE;
@@ -54,13 +53,20 @@ public class FormatterStateMap {
         formatterStateMap.put(BLOCK_COMMENT_LEXEME_NAME, BLOCK_COMMENT_FORMATTER_STATE);
     }
 
-    public FormatterState getNextState(String tokenName) {
+    /**
+     * This method implements transferring of new formatter state
+     *
+     * @param tokenName String name of token we've got
+     * @return FormatterState instance
+     */
+    public FormatterState getNextState(final String tokenName) {
         return formatterStateMap.getOrDefault(tokenName, DEFAULT_LEXEME_FORMATTER_STATE);
     }
 
     /**
+     * This method implements transferring of start state
      *
-     * @return
+     * @return FormatterState instance
      */
     public FormatterState getStartFormatterState() {
         return START_FORMATTER_STATE;

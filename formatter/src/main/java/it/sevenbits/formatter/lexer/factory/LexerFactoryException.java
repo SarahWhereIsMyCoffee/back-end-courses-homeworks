@@ -1,4 +1,4 @@
-package it.sevenbits.formatter.lexer.lexerfactory;
+package it.sevenbits.formatter.lexer.factory;
 
 /**
  * This exception is used by {@link ILexerFactory} interface and classes that implement it.

@@ -1,5 +1,5 @@
 /**
- * This package contains the main class, where you can see the formatting of code.
+ * This package contains the main class, where you can see a work of the program.
  *
  * @author Gaziz Sattarov (sarahwhereismycoffee)
  */

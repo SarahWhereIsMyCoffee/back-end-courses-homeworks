@@ -1,6 +1,6 @@
 package it.sevenbits.formatter.formatter.statemachine;
 
-import it.sevenbits.formatter.formatter.command.commandargs.FormatterCommandArgs;
+import it.sevenbits.formatter.formatter.command.util.FormatterCommandArgs;
 import it.sevenbits.formatter.formatter.command.commands.IFormatterCommand;
 import it.sevenbits.formatter.formatter.command.factory.FormatterCommandFactory;
 import it.sevenbits.formatter.io.reader.IReader;
@@ -8,8 +8,8 @@ import it.sevenbits.formatter.io.writer.IWriter;
 import it.sevenbits.formatter.lexer.statemachine.ILexer;
 import it.sevenbits.formatter.lexer.statemachine.LexerException;
 import it.sevenbits.formatter.lexer.Token.IToken;
-import it.sevenbits.formatter.lexer.lexerfactory.LexerFactory;
-import it.sevenbits.formatter.lexer.lexerfactory.LexerFactoryException;
+import it.sevenbits.formatter.lexer.factory.LexerFactory;
+import it.sevenbits.formatter.lexer.factory.LexerFactoryException;
 
 public class FormatterStateMachine implements IFormatter {
     private LexerFactory lexerFactory;
@@ -17,15 +17,11 @@ public class FormatterStateMachine implements IFormatter {
     private FormatterCommandFactory formatterCommandFactory;
     private FormatterState currentState;
     private FormatterCommandArgs formatterCommandArgs;
-    private Character SYMBOL_OPENING_BRACKET = '{';
-    private Character SYMBOL_CLOSING_BRACKET = '}';
-
-    public FormatterStateMachine() {
-
-    }
+    private final Character SYMBOL_OPENING_BRACKET = '{';
+    private final Character SYMBOL_CLOSING_BRACKET = '}';
 
     @Override
-    public String format(IReader reader, IWriter writer) throws FormatterException {
+    public String format(final IReader reader, final IWriter writer) throws FormatterException {
         formatterCommandArgs = new FormatterCommandArgs(writer);
         formatterCommandFactory = new FormatterCommandFactory(formatterCommandArgs);
         formatterStateTransition = new FormatterStateTransition();

@@ -3,7 +3,6 @@ package it.sevenbits.formatter.pair;
 import java.util.Objects;
 
 public final class Pair<T, U> {
-
     private final T first;
     private final U second;
 
@@ -13,9 +12,13 @@ public final class Pair<T, U> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Pair<?, ?> pair = (Pair<?, ?>) o;
         return Objects.equals(first, pair.first) &&
                 Objects.equals(second, pair.second);

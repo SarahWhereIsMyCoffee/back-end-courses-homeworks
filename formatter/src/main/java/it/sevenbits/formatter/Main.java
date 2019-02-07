@@ -44,9 +44,6 @@ public final class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
-
     private Main() {}
 }

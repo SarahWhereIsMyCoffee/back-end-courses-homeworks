@@ -1,7 +1,12 @@
 package it.sevenbits.formatter.lexer.command.commands;
 
-import it.sevenbits.formatter.lexer.Token.Token;
-
+/**
+ * An interface for lexer commands.
+ * Contains the only execute method, that performs a predefined task.
+ */
 public interface ILexerCommand {
-    public void execute();
+    /**
+     * Method, that performs a predefined task.
+     */
+    void execute();
 }
