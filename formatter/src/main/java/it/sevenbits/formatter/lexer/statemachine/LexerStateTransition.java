@@ -1,7 +1,5 @@
 package it.sevenbits.formatter.lexer.statemachine;
 
-import it.sevenbits.formatter.lexer.LexerState;
-
 public class LexerStateTransition {
 
     private final LexerStateMap stateMap;
@@ -10,7 +8,11 @@ public class LexerStateTransition {
         this.stateMap = new LexerStateMap();
     }
 
-    public LexerState nextState(Character currentSymbol) {
-        return stateMap.getNextState(currentSymbol);
+    public LexerState nextState(LexerState lexerState, Character currentSymbol) {
+        return stateMap.getNextState(lexerState, currentSymbol);
+    }
+
+    public LexerState startState() {
+        return stateMap.getStartState();
     }
 }

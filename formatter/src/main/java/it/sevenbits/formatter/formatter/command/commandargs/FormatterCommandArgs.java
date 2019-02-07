@@ -1,4 +1,4 @@
-package it.sevenbits.formatter.formatter.command.commandArgs;
+package it.sevenbits.formatter.formatter.command.commandargs;
 
 import it.sevenbits.formatter.io.writer.IWriter;
 

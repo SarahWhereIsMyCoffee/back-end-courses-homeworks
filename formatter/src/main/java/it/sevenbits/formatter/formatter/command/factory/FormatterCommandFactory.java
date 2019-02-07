@@ -1,9 +1,8 @@
 package it.sevenbits.formatter.formatter.command.factory;
 
-import it.sevenbits.formatter.formatter.command.commandArgs.FormatterCommandArgs;
+import it.sevenbits.formatter.formatter.command.commandargs.FormatterCommandArgs;
 import it.sevenbits.formatter.formatter.command.commands.IFormatterCommand;
 import it.sevenbits.formatter.formatter.statemachine.FormatterState;
-import it.sevenbits.formatter.lexer.Token.Token;
 
 public class FormatterCommandFactory implements IFormatterCommandFactory {
     private FormatterCommandRepository formatterCommandRepository;
@@ -13,7 +12,7 @@ public class FormatterCommandFactory implements IFormatterCommandFactory {
     }
 
     @Override
-    public IFormatterCommand createCommand(FormatterState formatterState) {
-        return formatterCommandRepository.getCommand(formatterState);
+    public IFormatterCommand createCommand(FormatterState previousState, FormatterState newState) {
+        return formatterCommandRepository.getCommand(previousState, newState);
     }
 }

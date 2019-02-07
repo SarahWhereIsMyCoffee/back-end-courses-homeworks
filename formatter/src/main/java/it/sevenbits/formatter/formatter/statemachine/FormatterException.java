@@ -1,4 +1,4 @@
-package it.sevenbits.formatter.commonFormatter;
+package it.sevenbits.formatter.formatter.statemachine;
 
 /**
  * Exception class that we use in IWriter instances and that can be thrown during the method work.

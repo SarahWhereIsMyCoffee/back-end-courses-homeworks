@@ -1,6 +1,6 @@
 package it.sevenbits.formatter.formatter.command.commands;
 
-import it.sevenbits.formatter.formatter.command.commandArgs.FormatterCommandArgs;
+import it.sevenbits.formatter.formatter.command.commandargs.FormatterCommandArgs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

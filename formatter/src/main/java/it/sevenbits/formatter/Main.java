@@ -1,7 +1,6 @@
 package it.sevenbits.formatter;
 
-import it.sevenbits.formatter.commonFormatter.Formatter;
-import it.sevenbits.formatter.commonFormatter.FormatterException;
+import it.sevenbits.formatter.formatter.statemachine.FormatterException;
 import it.sevenbits.formatter.formatter.statemachine.FormatterStateMachine;
 import it.sevenbits.formatter.io.reader.IReader;
 import it.sevenbits.formatter.io.reader.FileReader;
@@ -11,7 +10,6 @@ import it.sevenbits.formatter.io.writer.FileWriter;
 import it.sevenbits.formatter.io.writer.WriterException;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Class for the demonstration of formatting.

@@ -1,15 +1,13 @@
 package it.sevenbits.formatter.formatter.statemachine;
 
-import it.sevenbits.formatter.commonFormatter.FormatterException;
-import it.sevenbits.formatter.commonFormatter.IFormatter;
-import it.sevenbits.formatter.formatter.command.commandArgs.FormatterCommandArgs;
+import it.sevenbits.formatter.formatter.command.commandargs.FormatterCommandArgs;
 import it.sevenbits.formatter.formatter.command.commands.IFormatterCommand;
 import it.sevenbits.formatter.formatter.command.factory.FormatterCommandFactory;
 import it.sevenbits.formatter.io.reader.IReader;
 import it.sevenbits.formatter.io.writer.IWriter;
-import it.sevenbits.formatter.lexer.ILexer;
-import it.sevenbits.formatter.lexer.LexerException;
-import it.sevenbits.formatter.lexer.Token.Token;
+import it.sevenbits.formatter.lexer.statemachine.ILexer;
+import it.sevenbits.formatter.lexer.statemachine.LexerException;
+import it.sevenbits.formatter.lexer.Token.IToken;
 import it.sevenbits.formatter.lexer.lexerfactory.LexerFactory;
 import it.sevenbits.formatter.lexer.lexerfactory.LexerFactoryException;
 
@@ -19,8 +17,8 @@ public class FormatterStateMachine implements IFormatter {
     private FormatterCommandFactory formatterCommandFactory;
     private FormatterState currentState;
     private FormatterCommandArgs formatterCommandArgs;
-    private String LEXEME_OPENING_BRACKET_NAME = "LEXEME_OPENING_CURLY_BRACKET";
-    private String LEXEME_CLOSING_BRACKET_NAME = "LEXEME_CLOSING_CURLY_BRACKET";
+    private Character SYMBOL_OPENING_BRACKET = '{';
+    private Character SYMBOL_CLOSING_BRACKET = '}';
 
     public FormatterStateMachine() {
 
@@ -32,10 +30,11 @@ public class FormatterStateMachine implements IFormatter {
         formatterCommandFactory = new FormatterCommandFactory(formatterCommandArgs);
         formatterStateTransition = new FormatterStateTransition();
         currentState = formatterStateTransition.getStartState();
+        FormatterState previousState = formatterStateTransition.getStartState();
         lexerFactory = new LexerFactory();
 
         IFormatterCommand currentCommand;
-        Token currentToken = null;
+        IToken currentToken = null;
         StringBuilder stringBuilder = new StringBuilder();
         ILexer lexer;
         try {
@@ -51,16 +50,18 @@ public class FormatterStateMachine implements IFormatter {
                 e.printStackTrace();
             }
             formatterCommandArgs.setCurrentLexeme(currentToken.getLexeme());
-            if (currentToken.getName() == LEXEME_CLOSING_BRACKET_NAME) {
+            if (currentToken.getLexeme().equals(SYMBOL_CLOSING_BRACKET.toString())) {
                 formatterCommandArgs.decrementNestingLevel();
             }
             stringBuilder.append(formatterCommandArgs.getCurrentLexeme());
-            currentState = formatterStateTransition.nextState(currentState, currentToken.getName());
-            currentCommand = formatterCommandFactory.createCommand(currentState);
+            currentState = formatterStateTransition.nextState(currentToken.getName());
+            currentCommand = formatterCommandFactory.createCommand(previousState, currentState);
+            System.out.println("CURRENT TOKEN IN FORMATTER: " + currentToken.getName() + " " + currentToken.getLexeme());
             currentCommand.execute();
-            if (currentToken.getName() == LEXEME_OPENING_BRACKET_NAME) {
+            if (currentToken.getLexeme().equals(SYMBOL_OPENING_BRACKET.toString())) {
                 formatterCommandArgs.incrementNestingLevel();
             }
+            previousState = currentState;
         }
         return stringBuilder.toString();
     }

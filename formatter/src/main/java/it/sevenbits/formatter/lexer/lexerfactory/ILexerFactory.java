@@ -1,7 +1,7 @@
 package it.sevenbits.formatter.lexer.lexerfactory;
 
 import it.sevenbits.formatter.io.reader.IReader;
-import it.sevenbits.formatter.lexer.ILexer;
+import it.sevenbits.formatter.lexer.statemachine.ILexer;
 
 import java.lang.reflect.InvocationTargetException;
 

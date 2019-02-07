@@ -3,8 +3,8 @@ package it.sevenbits.formatter.lexer.lexerfactory;
 import it.sevenbits.formatter.io.reader.IReader;
 import it.sevenbits.formatter.io.reader.FileReader;
 import it.sevenbits.formatter.io.reader.StringReader;
-import it.sevenbits.formatter.lexer.ILexer;
-import it.sevenbits.formatter.lexer.statemachine.Lexer;
+import it.sevenbits.formatter.lexer.statemachine.ILexer;
+import it.sevenbits.formatter.lexer.statemachine.LexerStateMachine;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -15,8 +15,8 @@ public class LexerFactory implements ILexerFactory {
     private final Map<Class<? extends IReader>, Class<? extends ILexer>> iReaderMap;
     public LexerFactory() {
         iReaderMap = new HashMap<>();
-        iReaderMap.put(StringReader.class, Lexer.class);
-        iReaderMap.put(FileReader.class, Lexer.class);
+        iReaderMap.put(StringReader.class, LexerStateMachine.class);
+        iReaderMap.put(FileReader.class, LexerStateMachine.class);
     }
 
     @Override

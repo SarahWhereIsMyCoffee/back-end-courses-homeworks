@@ -1,4 +1,4 @@
-package it.sevenbits.formatter.formatter.statemachine;
+package it.sevenbits.formatter.pair;
 
 import java.util.Objects;
 

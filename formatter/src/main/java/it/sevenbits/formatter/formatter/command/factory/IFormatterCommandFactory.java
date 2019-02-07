@@ -5,5 +5,5 @@ import it.sevenbits.formatter.formatter.statemachine.FormatterState;
 import it.sevenbits.formatter.lexer.Token.Token;
 
 public interface IFormatterCommandFactory {
-    public IFormatterCommand createCommand(FormatterState formatterState);
+    IFormatterCommand createCommand(FormatterState previousState, FormatterState newState);
 }

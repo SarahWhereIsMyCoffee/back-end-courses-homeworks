@@ -1,11 +1,8 @@
-package it.sevenbits.formatter.commonFormatter;
+package it.sevenbits.formatter.formatter.statemachine;
 
 import it.sevenbits.formatter.io.reader.IReader;
 import it.sevenbits.formatter.io.writer.IWriter;
 
-/**
- * This is the main class, which makes it able to format the code.
- */
 public interface IFormatter {
     /**
      * Main method, which we're using to format the code.
