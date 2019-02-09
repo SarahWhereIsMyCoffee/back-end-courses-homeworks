@@ -1,2 +1,3 @@
 public final class Main{public static void main(final String[]
- args){ FormatterStateMachine formatter = new FormatterStateMachine() ; IReader reader = new IReader() ;}}
+ args)//asdasdasd
+ { FormatterStateMachine formatter = new FormatterStateMachine() ; IReader reader = new IReader() ;}}

@@ -63,7 +63,7 @@ public class TokenBuilder {
      * @param lexerState - previous lexer state, which with we set the name to token
      */
     public void setTokenName(final State lexerState) {
-        tokenName = statesNameMap.getOrDefault(lexerState, "DEFAULT_STATE");
+        tokenName = statesNameMap.getOrDefault(lexerState, "LEXEME_DEFAULT");
     }
 
     /**

@@ -204,7 +204,9 @@ public class FormatterCommandRepository {
 
 
         commandMap.put(new Pair<>
-                (null, START_FORMATTER_STATE), writingDefaultFormatterCommand);
+                ("", START_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                ("", DEFAULT_LEXEME_FORMATTER_STATE), writingDefaultFormatterCommand);
     }
 
     public IFormatterCommand getCommand(final String lastWrittenLexemeName, final FormatterState newState) {

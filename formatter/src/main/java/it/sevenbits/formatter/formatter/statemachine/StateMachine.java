@@ -39,9 +39,11 @@ public class StateMachine implements IFormatter {
         formatterCommandArgs = new FormatterCommandArgs(writer);
         formatterCommandFactory = new FormatterCommandFactory(formatterCommandArgs);
         stateTransition = new StateTransition();
-        currentState = stateTransition.getStartState();
         lexerFactory = new LexerFactory();
-        formatterCommandArgs.setLastWrittenLexemeName("LEXEME_DEFAULT");
+        currentState = stateTransition.getStartState();
+
+        formatterCommandArgs.setLastWrittenLexemeName("");
+        formatterCommandArgs.setLastWrittenLexeme("");
 
         IFormatterCommand currentCommand;
         IToken currentToken = null;
@@ -59,9 +61,10 @@ public class StateMachine implements IFormatter {
             } catch (LexerException e) {
                 e.printStackTrace();
             }
+            currentState = stateTransition.nextState(currentToken.getName());
             formatterCommandArgs.setCurrentLexeme(currentToken.getLexeme());
             formatterCommandArgs.setCurrentLexemeName(currentToken.getName());
-
+            System.out.println("1. " + currentToken.getLexeme() + " " + formatterCommandArgs.getCurrentLexemeName());
 
             if (currentToken.getLexeme().equals(SYMBOL_CLOSING_BRACKET.toString())) {
                 formatterCommandArgs.decrementNestingLevel();
@@ -69,13 +72,12 @@ public class StateMachine implements IFormatter {
 
             stringBuilder.append(formatterCommandArgs.getCurrentLexeme());
             currentCommand = formatterCommandFactory.createCommand(formatterCommandArgs.getLastWrittenLexemeName(), currentState);
-            System.out.println("CURRENT TOKEN IN FORMATTER: " + formatterCommandArgs.getCurrentLexeme() + " " + formatterCommandArgs.getCurrentLexemeName());
+            System.out.println("2. Last written lexeme: " + formatterCommandArgs.getLastWrittenLexemeName() + " Current state: " + currentState.toString());
             currentCommand.execute();
 
             if (currentToken.getLexeme().equals(SYMBOL_OPENING_BRACKET.toString())) {
                 formatterCommandArgs.incrementNestingLevel();
             }
-            currentState = stateTransition.nextState(currentToken.getName());
         }
         return stringBuilder.toString();
     }
