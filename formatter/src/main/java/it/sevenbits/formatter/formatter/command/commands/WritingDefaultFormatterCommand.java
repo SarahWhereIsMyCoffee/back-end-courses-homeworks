@@ -26,5 +26,6 @@ public class WritingDefaultFormatterCommand implements IFormatterCommand {
             e.printStackTrace();
         }
         formatterCommandArgs.setLastWrittenLexeme(formatterCommandArgs.getCurrentLexeme());
+        formatterCommandArgs.setLastWrittenLexemeName(formatterCommandArgs.getCurrentLexemeName());
     }
 }

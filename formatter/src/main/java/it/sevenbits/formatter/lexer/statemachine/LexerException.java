@@ -1,5 +1,8 @@
 package it.sevenbits.formatter.lexer.statemachine;
 
+/**
+ * This class presents exception class, that can be thrown during the Lexer work.
+ */
 public class LexerException extends Exception {
     /**
      * Class constructor with specifying of an error message.

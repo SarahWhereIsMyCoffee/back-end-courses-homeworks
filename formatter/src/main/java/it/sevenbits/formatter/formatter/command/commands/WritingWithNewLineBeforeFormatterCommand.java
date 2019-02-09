@@ -30,5 +30,6 @@ public class WritingWithNewLineBeforeFormatterCommand implements IFormatterComma
             e.printStackTrace();
         }
         formatterCommandArgs.setLastWrittenLexeme(formatterCommandArgs.getCurrentLexeme());
+        formatterCommandArgs.setLastWrittenLexemeName(formatterCommandArgs.getCurrentLexemeName());
     }
 }

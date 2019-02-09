@@ -1,7 +1,7 @@
 package it.sevenbits.formatter;
 
 import it.sevenbits.formatter.formatter.statemachine.FormatterException;
-import it.sevenbits.formatter.formatter.statemachine.FormatterStateMachine;
+import it.sevenbits.formatter.formatter.statemachine.StateMachine;
 import it.sevenbits.formatter.io.reader.IReader;
 import it.sevenbits.formatter.io.reader.FileReader;
 import it.sevenbits.formatter.io.reader.ReaderException;
@@ -19,7 +19,7 @@ public final class Main {
      * @param args - Command line arguments
      */
     public static void main(final String[] args) {
-        FormatterStateMachine formatter = new FormatterStateMachine();
+        StateMachine formatter = new StateMachine();
         IReader reader = null;
         try {
             reader = new FileReader("../formatter/src/main/resources/inputTexts/Text.txt");

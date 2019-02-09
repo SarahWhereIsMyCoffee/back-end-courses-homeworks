@@ -11,23 +11,37 @@ import it.sevenbits.formatter.lexer.Token.IToken;
 import it.sevenbits.formatter.lexer.factory.LexerFactory;
 import it.sevenbits.formatter.lexer.factory.LexerFactoryException;
 
-public class FormatterStateMachine implements IFormatter {
+/**
+ * IFormatter implementation that makes it able to format code by
+ * analysis of passing lexemes.
+ */
+public class StateMachine implements IFormatter {
     private LexerFactory lexerFactory;
-    private FormatterStateTransition formatterStateTransition;
+    private StateTransition stateTransition;
     private FormatterCommandFactory formatterCommandFactory;
     private FormatterState currentState;
     private FormatterCommandArgs formatterCommandArgs;
     private final Character SYMBOL_OPENING_BRACKET = '{';
     private final Character SYMBOL_CLOSING_BRACKET = '}';
 
+    /**
+     * This method works on SM.
+     * It takes a symbol from reader, then takes a necessary state,
+     * after it calls a commands according with new state and last written lexeme.
+     *
+     * @param reader - IReader instance for getting string.
+     * @param writer - IWriter instance for writing formatted string.
+     * @return String - text of formatted code
+     * @throws FormatterException Exception that can be thrown during the method work.
+     */
     @Override
     public String format(final IReader reader, final IWriter writer) throws FormatterException {
         formatterCommandArgs = new FormatterCommandArgs(writer);
         formatterCommandFactory = new FormatterCommandFactory(formatterCommandArgs);
-        formatterStateTransition = new FormatterStateTransition();
-        currentState = formatterStateTransition.getStartState();
-        FormatterState previousState = formatterStateTransition.getStartState();
+        stateTransition = new StateTransition();
+        currentState = stateTransition.getStartState();
         lexerFactory = new LexerFactory();
+        formatterCommandArgs.setLastWrittenLexemeName("LEXEME_DEFAULT");
 
         IFormatterCommand currentCommand;
         IToken currentToken = null;
@@ -46,18 +60,22 @@ public class FormatterStateMachine implements IFormatter {
                 e.printStackTrace();
             }
             formatterCommandArgs.setCurrentLexeme(currentToken.getLexeme());
+            formatterCommandArgs.setCurrentLexemeName(currentToken.getName());
+
+
             if (currentToken.getLexeme().equals(SYMBOL_CLOSING_BRACKET.toString())) {
                 formatterCommandArgs.decrementNestingLevel();
             }
+
             stringBuilder.append(formatterCommandArgs.getCurrentLexeme());
-            currentState = formatterStateTransition.nextState(currentToken.getName());
-            currentCommand = formatterCommandFactory.createCommand(previousState, currentState);
-            System.out.println("CURRENT TOKEN IN FORMATTER: " + currentToken.getName() + " " + currentToken.getLexeme());
+            currentCommand = formatterCommandFactory.createCommand(formatterCommandArgs.getLastWrittenLexemeName(), currentState);
+            System.out.println("CURRENT TOKEN IN FORMATTER: " + formatterCommandArgs.getCurrentLexeme() + " " + formatterCommandArgs.getCurrentLexemeName());
             currentCommand.execute();
+
             if (currentToken.getLexeme().equals(SYMBOL_OPENING_BRACKET.toString())) {
                 formatterCommandArgs.incrementNestingLevel();
             }
-            previousState = currentState;
+            currentState = stateTransition.nextState(currentToken.getName());
         }
         return stringBuilder.toString();
     }

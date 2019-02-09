@@ -13,17 +13,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FormatterCommandRepository {
-    private Map<Pair<FormatterState, FormatterState>, IFormatterCommand> commandMap;
+    private Map<Pair<String, FormatterState>, IFormatterCommand> commandMap;
 
-    private FormatterState START_FORMATTER_STATE;
-    private FormatterState OPENING_CURLY_BRACKET_FORMATTER_STATE;
-    private FormatterState CLOSING_CURLY_BRACKET_FORMATTER_STATE;
-    private FormatterState SEMICOLON_FORMATTER_STATE;
-    private FormatterState SPACE_FORMATTER_STATE;
-    private FormatterState NEW_LINE_FORMATTER_STATE;
-    private FormatterState LINE_COMMENT_FORMATTER_STATE;
-    private FormatterState BLOCK_COMMENT_FORMATTER_STATE;
-    private FormatterState DEFAULT_LEXEME_FORMATTER_STATE;
+    private static final FormatterState START_FORMATTER_STATE = new FormatterState("START_STATE");
+    private static final FormatterState OPENING_CURLY_BRACKET_FORMATTER_STATE = new FormatterState("OPENING_CURLY_BRACKET_STATE");
+    private static final FormatterState CLOSING_CURLY_BRACKET_FORMATTER_STATE = new FormatterState("CLOSING_CURLY_BRACKET_STATE");
+    private static final FormatterState SEMICOLON_FORMATTER_STATE = new FormatterState("SEMICOLON_STATE");
+    private static final FormatterState SPACE_FORMATTER_STATE = new FormatterState("SPACE_STATE");
+    private static final FormatterState NEW_LINE_FORMATTER_STATE = new FormatterState("NEW_LINE_STATE");
+    private static final FormatterState LINE_COMMENT_FORMATTER_STATE = new FormatterState("LINE_COMMENT_STATE");
+    private static final FormatterState BLOCK_COMMENT_FORMATTER_STATE = new FormatterState("BLOCK_COMMENT_STATE");
+    private static final FormatterState DEFAULT_LEXEME_FORMATTER_STATE = new FormatterState("DEFAULT_LEXEME_STATE");
+
+    private static final String OPENING_CURLY_BRACKET_LEXEME_NAME = "LEXEME_OPENING_CURLY_BRACKET";
+    private static final String CLOSING_CURLY_BRACKET_LEXEME_NAME = "LEXEME_CLOSING_CURLY_BRACKET";
+    private static final String SEMICOLON_LEXEME_NAME = "LEXEME_SEMICOLON";
+    private static final String SPACE_LEXEME_NAME = "LEXEME_SPACE";
+    private static final String NEW_LINE_LEXEME_NAME = "LEXEME_NEW_LINE";
+    private static final String LINE_COMMENT_LEXEME_NAME = "LEXEME_LINE_COMMENT_STATE";
+    private static final String BLOCK_COMMENT_LEXEME_NAME = "LEXEME_BLOCK_COMMENT_STATE";
+    private static final String DEFAULT_LEXEME_NAME = "LEXEME_DEFAULT";
 
     private IFormatterCommand ignoreFormatterCommandFormatterCommand;
     private IFormatterCommand writingDefaultFormatterCommand;
@@ -31,152 +40,174 @@ public class FormatterCommandRepository {
     private IFormatterCommand writingWithSpaceBeforeFormatterCommand;
 
     public FormatterCommandRepository(final FormatterCommandArgs formatterCommandArgs) {
-        START_FORMATTER_STATE = new FormatterState("START_STATE");
-        OPENING_CURLY_BRACKET_FORMATTER_STATE = new FormatterState("OPENING_CURLY_BRACKET_STATE");
-        CLOSING_CURLY_BRACKET_FORMATTER_STATE = new FormatterState("CLOSING_CURLY_BRACKET_STATE");
-        SEMICOLON_FORMATTER_STATE = new FormatterState("SEMICOLON_STATE");
-        SPACE_FORMATTER_STATE = new FormatterState("SPACE_STATE");
-        NEW_LINE_FORMATTER_STATE = new FormatterState("NEW_LINE_STATE");
-        LINE_COMMENT_FORMATTER_STATE = new FormatterState("LINE_COMMENT_STATE");
-        BLOCK_COMMENT_FORMATTER_STATE = new FormatterState("BLOCK_COMMENT_STATE");
-        DEFAULT_LEXEME_FORMATTER_STATE = new FormatterState("DEFAULT_LEXEME_STATE");
-
+        commandMap = new HashMap<>();
         ignoreFormatterCommandFormatterCommand = new IgnoreFormatterCommand();
         writingDefaultFormatterCommand = new WritingDefaultFormatterCommand(formatterCommandArgs);
         writingWithNewLineBeforeFormatterCommand = new WritingWithNewLineBeforeFormatterCommand(formatterCommandArgs);
         writingWithSpaceBeforeFormatterCommand = new WritingWithSpaceBeforeFormatterCommand(formatterCommandArgs);
 
-        //Странные переносы строк из-за выхода за 140 символов (checkstyle)
-        commandMap = new HashMap<>();
-        commandMap.put(new Pair<>(START_FORMATTER_STATE, OPENING_CURLY_BRACKET_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(START_FORMATTER_STATE, CLOSING_CURLY_BRACKET_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(START_FORMATTER_STATE, SEMICOLON_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(START_FORMATTER_STATE, SPACE_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(START_FORMATTER_STATE, NEW_LINE_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(START_FORMATTER_STATE, LINE_COMMENT_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(START_FORMATTER_STATE, BLOCK_COMMENT_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(START_FORMATTER_STATE, DEFAULT_LEXEME_FORMATTER_STATE), writingDefaultFormatterCommand);
-
-        commandMap.put(new Pair<>(OPENING_CURLY_BRACKET_FORMATTER_STATE, OPENING_CURLY_BRACKET_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(OPENING_CURLY_BRACKET_FORMATTER_STATE, CLOSING_CURLY_BRACKET_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(OPENING_CURLY_BRACKET_FORMATTER_STATE, SEMICOLON_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(OPENING_CURLY_BRACKET_FORMATTER_STATE, SPACE_FORMATTER_STATE),
-                ignoreFormatterCommandFormatterCommand);
-        commandMap.put(new Pair<>(OPENING_CURLY_BRACKET_FORMATTER_STATE, NEW_LINE_FORMATTER_STATE),
-                ignoreFormatterCommandFormatterCommand);
-        commandMap.put(new Pair<>(OPENING_CURLY_BRACKET_FORMATTER_STATE, LINE_COMMENT_FORMATTER_STATE),
-                writingWithSpaceBeforeFormatterCommand);
-        commandMap.put(new Pair<>(OPENING_CURLY_BRACKET_FORMATTER_STATE, BLOCK_COMMENT_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(OPENING_CURLY_BRACKET_FORMATTER_STATE, DEFAULT_LEXEME_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (OPENING_CURLY_BRACKET_LEXEME_NAME, OPENING_CURLY_BRACKET_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (OPENING_CURLY_BRACKET_LEXEME_NAME, CLOSING_CURLY_BRACKET_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (OPENING_CURLY_BRACKET_LEXEME_NAME, SEMICOLON_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (OPENING_CURLY_BRACKET_LEXEME_NAME, SPACE_FORMATTER_STATE), ignoreFormatterCommandFormatterCommand);
+        commandMap.put(new Pair<>
+                (OPENING_CURLY_BRACKET_LEXEME_NAME, NEW_LINE_FORMATTER_STATE), ignoreFormatterCommandFormatterCommand);
+        commandMap.put(new Pair<>
+                (OPENING_CURLY_BRACKET_LEXEME_NAME, LINE_COMMENT_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (OPENING_CURLY_BRACKET_LEXEME_NAME, BLOCK_COMMENT_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (OPENING_CURLY_BRACKET_LEXEME_NAME, DEFAULT_LEXEME_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
 
 
-        commandMap.put(new Pair<>(CLOSING_CURLY_BRACKET_FORMATTER_STATE, OPENING_CURLY_BRACKET_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(CLOSING_CURLY_BRACKET_FORMATTER_STATE, CLOSING_CURLY_BRACKET_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(CLOSING_CURLY_BRACKET_FORMATTER_STATE, SEMICOLON_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(CLOSING_CURLY_BRACKET_FORMATTER_STATE, SPACE_FORMATTER_STATE),
-                ignoreFormatterCommandFormatterCommand);
-        commandMap.put(new Pair<>(CLOSING_CURLY_BRACKET_FORMATTER_STATE, NEW_LINE_FORMATTER_STATE),
-                ignoreFormatterCommandFormatterCommand);
-        commandMap.put(new Pair<>(CLOSING_CURLY_BRACKET_FORMATTER_STATE, LINE_COMMENT_FORMATTER_STATE),
-                writingWithSpaceBeforeFormatterCommand);
-        commandMap.put(new Pair<>(CLOSING_CURLY_BRACKET_FORMATTER_STATE, BLOCK_COMMENT_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(CLOSING_CURLY_BRACKET_FORMATTER_STATE, DEFAULT_LEXEME_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (CLOSING_CURLY_BRACKET_LEXEME_NAME, START_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (CLOSING_CURLY_BRACKET_LEXEME_NAME, OPENING_CURLY_BRACKET_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (CLOSING_CURLY_BRACKET_LEXEME_NAME, CLOSING_CURLY_BRACKET_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (CLOSING_CURLY_BRACKET_LEXEME_NAME, SEMICOLON_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (CLOSING_CURLY_BRACKET_LEXEME_NAME, SPACE_FORMATTER_STATE), ignoreFormatterCommandFormatterCommand);
+        commandMap.put(new Pair<>
+                (CLOSING_CURLY_BRACKET_LEXEME_NAME, NEW_LINE_FORMATTER_STATE), ignoreFormatterCommandFormatterCommand);
+        commandMap.put(new Pair<>
+                (CLOSING_CURLY_BRACKET_LEXEME_NAME, LINE_COMMENT_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (CLOSING_CURLY_BRACKET_LEXEME_NAME, BLOCK_COMMENT_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (CLOSING_CURLY_BRACKET_LEXEME_NAME, DEFAULT_LEXEME_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
 
 
-        commandMap.put(new Pair<>(SEMICOLON_FORMATTER_STATE, OPENING_CURLY_BRACKET_FORMATTER_STATE),
-                writingWithSpaceBeforeFormatterCommand);
-        commandMap.put(new Pair<>(SEMICOLON_FORMATTER_STATE, CLOSING_CURLY_BRACKET_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(SEMICOLON_FORMATTER_STATE, SEMICOLON_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(SEMICOLON_FORMATTER_STATE, SPACE_FORMATTER_STATE),
-                ignoreFormatterCommandFormatterCommand);
-        commandMap.put(new Pair<>(SEMICOLON_FORMATTER_STATE, NEW_LINE_FORMATTER_STATE),
-                ignoreFormatterCommandFormatterCommand);
-        commandMap.put(new Pair<>(SEMICOLON_FORMATTER_STATE, LINE_COMMENT_FORMATTER_STATE),
-                writingWithSpaceBeforeFormatterCommand);
-        commandMap.put(new Pair<>(SEMICOLON_FORMATTER_STATE, BLOCK_COMMENT_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(SEMICOLON_FORMATTER_STATE, DEFAULT_LEXEME_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (SEMICOLON_LEXEME_NAME, START_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (SEMICOLON_LEXEME_NAME, OPENING_CURLY_BRACKET_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (SEMICOLON_LEXEME_NAME, CLOSING_CURLY_BRACKET_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (SEMICOLON_LEXEME_NAME, SEMICOLON_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (SEMICOLON_LEXEME_NAME, SPACE_FORMATTER_STATE), ignoreFormatterCommandFormatterCommand);
+        commandMap.put(new Pair<>
+                (SEMICOLON_LEXEME_NAME, NEW_LINE_FORMATTER_STATE), ignoreFormatterCommandFormatterCommand);
+        commandMap.put(new Pair<>
+                (SEMICOLON_LEXEME_NAME, LINE_COMMENT_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (SEMICOLON_LEXEME_NAME, BLOCK_COMMENT_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (SEMICOLON_LEXEME_NAME, DEFAULT_LEXEME_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+
+        commandMap.put(new Pair<>
+                (SPACE_LEXEME_NAME, START_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (SPACE_LEXEME_NAME, OPENING_CURLY_BRACKET_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (SPACE_LEXEME_NAME, CLOSING_CURLY_BRACKET_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (SPACE_LEXEME_NAME, SEMICOLON_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (SPACE_LEXEME_NAME, SPACE_FORMATTER_STATE), ignoreFormatterCommandFormatterCommand);
+        commandMap.put(new Pair<>
+                (SPACE_LEXEME_NAME, NEW_LINE_FORMATTER_STATE), ignoreFormatterCommandFormatterCommand);
+        commandMap.put(new Pair<>
+                (SPACE_LEXEME_NAME, LINE_COMMENT_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (SPACE_LEXEME_NAME, BLOCK_COMMENT_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (SPACE_LEXEME_NAME, DEFAULT_LEXEME_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
 
 
-        commandMap.put(new Pair<>(SPACE_FORMATTER_STATE, OPENING_CURLY_BRACKET_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
-        commandMap.put(new Pair<>(SPACE_FORMATTER_STATE, CLOSING_CURLY_BRACKET_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(SPACE_FORMATTER_STATE, SEMICOLON_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(SPACE_FORMATTER_STATE, SPACE_FORMATTER_STATE), ignoreFormatterCommandFormatterCommand);
-        commandMap.put(new Pair<>(SPACE_FORMATTER_STATE, NEW_LINE_FORMATTER_STATE), ignoreFormatterCommandFormatterCommand);
-        commandMap.put(new Pair<>(SPACE_FORMATTER_STATE, LINE_COMMENT_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
-        commandMap.put(new Pair<>(SPACE_FORMATTER_STATE, BLOCK_COMMENT_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(SPACE_FORMATTER_STATE, DEFAULT_LEXEME_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
-
-        commandMap.put(new Pair<>(NEW_LINE_FORMATTER_STATE, OPENING_CURLY_BRACKET_FORMATTER_STATE),
-                writingWithSpaceBeforeFormatterCommand);
-        commandMap.put(new Pair<>(NEW_LINE_FORMATTER_STATE, CLOSING_CURLY_BRACKET_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(NEW_LINE_FORMATTER_STATE, SEMICOLON_FORMATTER_STATE),
-                writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(NEW_LINE_FORMATTER_STATE, SPACE_FORMATTER_STATE),
-                ignoreFormatterCommandFormatterCommand);
-        commandMap.put(new Pair<>(NEW_LINE_FORMATTER_STATE, NEW_LINE_FORMATTER_STATE),
-                ignoreFormatterCommandFormatterCommand);
-        commandMap.put(new Pair<>(NEW_LINE_FORMATTER_STATE, LINE_COMMENT_FORMATTER_STATE),
-                writingWithSpaceBeforeFormatterCommand);
-        commandMap.put(new Pair<>(NEW_LINE_FORMATTER_STATE, BLOCK_COMMENT_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(NEW_LINE_FORMATTER_STATE, DEFAULT_LEXEME_FORMATTER_STATE),
-                writingWithSpaceBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (NEW_LINE_LEXEME_NAME, START_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (NEW_LINE_LEXEME_NAME, OPENING_CURLY_BRACKET_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (NEW_LINE_LEXEME_NAME, CLOSING_CURLY_BRACKET_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (NEW_LINE_LEXEME_NAME, SEMICOLON_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (NEW_LINE_LEXEME_NAME, SPACE_FORMATTER_STATE), ignoreFormatterCommandFormatterCommand);
+        commandMap.put(new Pair<>
+                (NEW_LINE_LEXEME_NAME, NEW_LINE_FORMATTER_STATE), ignoreFormatterCommandFormatterCommand);
+        commandMap.put(new Pair<>
+                (NEW_LINE_LEXEME_NAME, LINE_COMMENT_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (NEW_LINE_LEXEME_NAME, BLOCK_COMMENT_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (NEW_LINE_LEXEME_NAME, DEFAULT_LEXEME_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
 
 
-        commandMap.put(new Pair<>(LINE_COMMENT_FORMATTER_STATE, OPENING_CURLY_BRACKET_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(LINE_COMMENT_FORMATTER_STATE, CLOSING_CURLY_BRACKET_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(LINE_COMMENT_FORMATTER_STATE, SEMICOLON_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(LINE_COMMENT_FORMATTER_STATE, SPACE_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(LINE_COMMENT_FORMATTER_STATE, NEW_LINE_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(LINE_COMMENT_FORMATTER_STATE, LINE_COMMENT_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(LINE_COMMENT_FORMATTER_STATE, BLOCK_COMMENT_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(LINE_COMMENT_FORMATTER_STATE, DEFAULT_LEXEME_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (LINE_COMMENT_LEXEME_NAME, START_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (LINE_COMMENT_LEXEME_NAME, OPENING_CURLY_BRACKET_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (LINE_COMMENT_LEXEME_NAME, CLOSING_CURLY_BRACKET_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (LINE_COMMENT_LEXEME_NAME, SEMICOLON_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (LINE_COMMENT_LEXEME_NAME, SPACE_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (LINE_COMMENT_LEXEME_NAME, NEW_LINE_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (LINE_COMMENT_LEXEME_NAME, LINE_COMMENT_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (LINE_COMMENT_LEXEME_NAME, BLOCK_COMMENT_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (LINE_COMMENT_LEXEME_NAME, DEFAULT_LEXEME_FORMATTER_STATE), writingDefaultFormatterCommand);
 
 
-        commandMap.put(new Pair<>(BLOCK_COMMENT_FORMATTER_STATE, OPENING_CURLY_BRACKET_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(BLOCK_COMMENT_FORMATTER_STATE, CLOSING_CURLY_BRACKET_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(BLOCK_COMMENT_FORMATTER_STATE, SEMICOLON_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(BLOCK_COMMENT_FORMATTER_STATE, SPACE_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(BLOCK_COMMENT_FORMATTER_STATE, NEW_LINE_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(BLOCK_COMMENT_FORMATTER_STATE, LINE_COMMENT_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(BLOCK_COMMENT_FORMATTER_STATE, BLOCK_COMMENT_FORMATTER_STATE), writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(BLOCK_COMMENT_FORMATTER_STATE, DEFAULT_LEXEME_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (BLOCK_COMMENT_LEXEME_NAME, START_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (BLOCK_COMMENT_LEXEME_NAME, OPENING_CURLY_BRACKET_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (BLOCK_COMMENT_LEXEME_NAME, CLOSING_CURLY_BRACKET_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (BLOCK_COMMENT_LEXEME_NAME, SEMICOLON_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (BLOCK_COMMENT_LEXEME_NAME, SPACE_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (BLOCK_COMMENT_LEXEME_NAME, NEW_LINE_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (BLOCK_COMMENT_LEXEME_NAME, LINE_COMMENT_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (BLOCK_COMMENT_LEXEME_NAME, BLOCK_COMMENT_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (BLOCK_COMMENT_LEXEME_NAME, DEFAULT_LEXEME_FORMATTER_STATE), writingDefaultFormatterCommand);
 
 
-        commandMap.put(new Pair<>(DEFAULT_LEXEME_FORMATTER_STATE, OPENING_CURLY_BRACKET_FORMATTER_STATE),
-                writingWithSpaceBeforeFormatterCommand);
-        commandMap.put(new Pair<>(DEFAULT_LEXEME_FORMATTER_STATE, CLOSING_CURLY_BRACKET_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(DEFAULT_LEXEME_FORMATTER_STATE, SEMICOLON_FORMATTER_STATE),
-                writingDefaultFormatterCommand);
-        commandMap.put(new Pair<>(DEFAULT_LEXEME_FORMATTER_STATE, SPACE_FORMATTER_STATE),
-                ignoreFormatterCommandFormatterCommand);
-        commandMap.put(new Pair<>(DEFAULT_LEXEME_FORMATTER_STATE, NEW_LINE_FORMATTER_STATE),
-                ignoreFormatterCommandFormatterCommand);
-        commandMap.put(new Pair<>(DEFAULT_LEXEME_FORMATTER_STATE, LINE_COMMENT_FORMATTER_STATE),
-                writingWithSpaceBeforeFormatterCommand);
-        commandMap.put(new Pair<>(DEFAULT_LEXEME_FORMATTER_STATE, BLOCK_COMMENT_FORMATTER_STATE),
-                writingWithNewLineBeforeFormatterCommand);
-        commandMap.put(new Pair<>(DEFAULT_LEXEME_FORMATTER_STATE, DEFAULT_LEXEME_FORMATTER_STATE),
-                writingWithSpaceBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (DEFAULT_LEXEME_NAME, START_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (DEFAULT_LEXEME_NAME, OPENING_CURLY_BRACKET_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (DEFAULT_LEXEME_NAME, CLOSING_CURLY_BRACKET_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (DEFAULT_LEXEME_NAME, SEMICOLON_FORMATTER_STATE), writingDefaultFormatterCommand);
+        commandMap.put(new Pair<>
+                (DEFAULT_LEXEME_NAME, SPACE_FORMATTER_STATE), ignoreFormatterCommandFormatterCommand);
+        commandMap.put(new Pair<>
+                (DEFAULT_LEXEME_NAME, NEW_LINE_FORMATTER_STATE), ignoreFormatterCommandFormatterCommand);
+        commandMap.put(new Pair<>
+                (DEFAULT_LEXEME_NAME, LINE_COMMENT_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (DEFAULT_LEXEME_NAME, BLOCK_COMMENT_FORMATTER_STATE), writingWithNewLineBeforeFormatterCommand);
+        commandMap.put(new Pair<>
+                (DEFAULT_LEXEME_NAME, DEFAULT_LEXEME_FORMATTER_STATE), writingWithSpaceBeforeFormatterCommand);
+
+
+        commandMap.put(new Pair<>
+                (null, START_FORMATTER_STATE), writingDefaultFormatterCommand);
     }
 
-    public IFormatterCommand getCommand(final FormatterState previousState, final FormatterState newState) {
-        return commandMap.getOrDefault(new Pair<>(previousState, newState), new IgnoreFormatterCommand());
+    public IFormatterCommand getCommand(final String lastWrittenLexemeName, final FormatterState newState) {
+        return commandMap.getOrDefault(new Pair<>(lastWrittenLexemeName, newState), new IgnoreFormatterCommand());
     }
 }

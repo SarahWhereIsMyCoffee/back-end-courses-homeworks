@@ -3,6 +3,9 @@ package it.sevenbits.formatter.formatter.statemachine;
 import it.sevenbits.formatter.io.reader.IReader;
 import it.sevenbits.formatter.io.writer.IWriter;
 
+/**
+ * An interface that presents Formatter class.
+ */
 public interface IFormatter {
     /**
      * Main method, which we're using to format the code.

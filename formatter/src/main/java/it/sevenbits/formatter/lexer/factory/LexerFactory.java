@@ -16,6 +16,11 @@ import java.util.Map;
  */
 public class LexerFactory implements ILexerFactory {
     private final Map<Class<? extends IReader>, Class<? extends ILexer>> iReaderMap;
+
+    /**
+     * Constructor of LexerFactory class.
+     * Here we declare and fill IReaderMap.
+     */
     public LexerFactory() {
         iReaderMap = new HashMap<>();
         iReaderMap.put(StringReader.class, StateMachine.class);

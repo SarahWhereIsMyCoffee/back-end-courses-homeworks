@@ -9,9 +9,17 @@ import java.io.Writer;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * Class FileWriter write lexemes to the specified file during the formatting.
+ */
 public class FileWriter implements IWriter, Closeable {
     private Writer writer;
 
+    /**
+     * Constructor of FileWriter class.
+     * @param filePath String path of file, where we will save our formatted text.
+     * @throws WriterException Exception that can be thrown during the program work.
+     */
     public FileWriter(final String filePath) throws WriterException {
         try {
             writer = new OutputStreamWriter(
