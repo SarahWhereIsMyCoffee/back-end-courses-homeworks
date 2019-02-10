@@ -5,11 +5,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
+/**
+ * This class presents formatter command for writing indents inside blocks.
+ */
 public class IndentFormatterCommand implements IFormatterCommand {
     private String indent = "    ";
     private FormatterCommandArgs formatterCommandArgs;
     private final Logger logger = LoggerFactory.getLogger(IndentFormatterCommand.class);
 
+    /**
+     * Constructor if IndentFormatterCommand class.
+     * Here we declare FormatterCommandArgs instance.
+     *
+     * @param formatterCommandArgs FormatterCommandArgs instance
+     */
     public IndentFormatterCommand(final FormatterCommandArgs formatterCommandArgs) {
         this.formatterCommandArgs = formatterCommandArgs;
     }

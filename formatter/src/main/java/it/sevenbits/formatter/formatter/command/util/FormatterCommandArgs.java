@@ -19,7 +19,7 @@ public class FormatterCommandArgs {
      * This method sets a name of the last written lexeme.
      * @param currentLexemeName String last written lexeme.
      */
-    public void setCurrentLexemeName(String currentLexemeName) {
+    public void setCurrentLexemeName(final String currentLexemeName) {
         this.currentLexemeName = currentLexemeName;
     }
 
@@ -45,7 +45,7 @@ public class FormatterCommandArgs {
      * This method sets last written lexeme.
      * @param lastWrittenLexemeName String last written lexeme.
      */
-    public void setLastWrittenLexemeName(String lastWrittenLexemeName) {
+    public void setLastWrittenLexemeName(final String lastWrittenLexemeName) {
         this.lastWrittenLexemeName = lastWrittenLexemeName;
     }
 

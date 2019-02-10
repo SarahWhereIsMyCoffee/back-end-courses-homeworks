@@ -14,8 +14,8 @@ public class StateMap {
     private static final String SEMICOLON_LEXEME_NAME = "LEXEME_SEMICOLON";
     private static final String SPACE_LEXEME_NAME = "LEXEME_SPACE";
     private static final String NEW_LINE_LEXEME_NAME = "LEXEME_NEW_LINE";
-    private static final String LINE_COMMENT_LEXEME_NAME = "LEXEME_LINE_COMMENT_STATE";
-    private static final String BLOCK_COMMENT_LEXEME_NAME = "LEXEME_BLOCK_COMMENT_STATE";
+    private static final String LINE_COMMENT_LEXEME_NAME = "LEXEME_LINE_COMMENT";
+    private static final String BLOCK_COMMENT_LEXEME_NAME = "LEXEME_BLOCK_COMMENT";
 
     private static final FormatterState START_FORMATTER_STATE = new FormatterState("START_STATE");
     private static final FormatterState OPENING_CURLY_BRACKET_FORMATTER_STATE = new FormatterState("OPENING_CURLY_BRACKET_STATE");

@@ -21,7 +21,7 @@ public class StateMachine implements ILexer {
     private TokenBuilder tokenBuilder;
     private State currentState;
     private ILexerCommand currentCommand;
-    private State END_OF_LEXEME_STATE;
+    private static final State END_OF_LEXEME_STATE = new State("END_OF_LEXEME_STATE");
     /**
      * Constructor of the StateMachine class.
      *
@@ -29,7 +29,8 @@ public class StateMachine implements ILexer {
      */
     public StateMachine(final IReader reader) {
         lexerCommandArgs = new LexerCommandArgs();
-        END_OF_LEXEME_STATE = new State("END_OF_LEXEME_STATE");
+
+
         tokenBuilder = new TokenBuilder();
         stateTransition = new StateTransition();
         lexerCommandFactory = new LexerCommandFactory(tokenBuilder, lexerCommandArgs);
@@ -70,7 +71,6 @@ public class StateMachine implements ILexer {
                 e.printStackTrace();
             }
         }
-
         return tokenBuilder.getToken(previousState);
     }
 

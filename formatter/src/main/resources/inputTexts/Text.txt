@@ -1,3 +1,6 @@
-public final class Main{public static void main(final String[]
- args)//asdasdasd
- { FormatterStateMachine formatter = new FormatterStateMachine() ; IReader reader = new IReader() ;}}
+public final class Main{//Line comment
+public static void main(final String[]
+ args){/*Block comment*/FormatterStateMachine formatter = new FormatterStateMachine() ;
+ IReader reader = new IReader() ;}}
+ {{{{/*{{Block comment}}*///Line comment
+ }}}}

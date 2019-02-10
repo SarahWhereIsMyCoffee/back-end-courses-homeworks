@@ -21,8 +21,8 @@ public class StateMachine implements IFormatter {
     private FormatterCommandFactory formatterCommandFactory;
     private FormatterState currentState;
     private FormatterCommandArgs formatterCommandArgs;
-    private final Character SYMBOL_OPENING_BRACKET = '{';
-    private final Character SYMBOL_CLOSING_BRACKET = '}';
+    private static final Character SYMBOL_OPENING_BRACKET = '{';
+    private static final Character SYMBOL_CLOSING_BRACKET = '}';
 
     /**
      * This method works on SM.
@@ -72,7 +72,6 @@ public class StateMachine implements IFormatter {
 
             stringBuilder.append(formatterCommandArgs.getCurrentLexeme());
             currentCommand = formatterCommandFactory.createCommand(formatterCommandArgs.getLastWrittenLexemeName(), currentState);
-            System.out.println("2. Last written lexeme: " + formatterCommandArgs.getLastWrittenLexemeName() + " Current state: " + currentState.toString());
             currentCommand.execute();
 
             if (currentToken.getLexeme().equals(SYMBOL_OPENING_BRACKET.toString())) {

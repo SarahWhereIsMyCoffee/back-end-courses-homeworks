@@ -31,6 +31,7 @@ public class StateMap {
     private static final State POTENTIONAL_END_OF_BLOCK_COMMENT_STATE = new State("POTENTIONAL_END_OF_BLOCK_COMMENT_STATE");
     private static final State END_OF_LEXEME_STATE = new State("END_OF_LEXEME_STATE");
     private static final State DEFAULT_STATE = new State("DEFAULT_STATE");
+    private static final State END_OF_BLOCK_COMMENT_STATE = new State("END_OF_BLOCK_COMMENT_STATE");
 
 
     /**
@@ -45,13 +46,17 @@ public class StateMap {
         lexerStateMap = new HashMap<>();
         defaultStateMap = new HashMap<>();
 
-
         defaultStateMap.put(OPENING_CURLY_BRACKET_STATE, END_OF_LEXEME_STATE);
         defaultStateMap.put(CLOSING_CURLY_BRACKET_STATE, END_OF_LEXEME_STATE);
         defaultStateMap.put(SEMICOLON_STATE, END_OF_LEXEME_STATE);
         defaultStateMap.put(SPACE_STATE, END_OF_LEXEME_STATE);
         defaultStateMap.put(NEW_LINE_STATE, END_OF_LEXEME_STATE);
         defaultStateMap.put(START_STATE, END_OF_LEXEME_STATE);
+        defaultStateMap.put(LINE_COMMENT_STATE, LINE_COMMENT_STATE);
+        defaultStateMap.put(BLOCK_COMMENT_STATE, BLOCK_COMMENT_STATE);
+        defaultStateMap.put(POTENTIONAL_END_OF_BLOCK_COMMENT_STATE, BLOCK_COMMENT_STATE);
+        defaultStateMap.put(END_OF_BLOCK_COMMENT_STATE, END_OF_LEXEME_STATE);
+
 
 
         lexerStateMap.put(new Pair<>(POTENTIONAL_COMMENT_STATE, SYMBOL_OPENING_CURLY_BRACKET), END_OF_LEXEME_STATE);
@@ -62,29 +67,24 @@ public class StateMap {
         lexerStateMap.put(new Pair<>(POTENTIONAL_COMMENT_STATE, SYMBOL_SLASH), LINE_COMMENT_STATE);
         lexerStateMap.put(new Pair<>(POTENTIONAL_COMMENT_STATE, SYMBOL_STAR), BLOCK_COMMENT_STATE);
 
-        lexerStateMap.put(new Pair<>(LINE_COMMENT_STATE, SYMBOL_OPENING_CURLY_BRACKET), LINE_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(LINE_COMMENT_STATE, SYMBOL_CLOSING_CURLY_BRACKET), LINE_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(LINE_COMMENT_STATE, SYMBOL_SEMICOLON), LINE_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(LINE_COMMENT_STATE, SYMBOL_SPACE), LINE_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(LINE_COMMENT_STATE, SYMBOL_NEW_LINE), END_OF_LEXEME_STATE);
-        lexerStateMap.put(new Pair<>(LINE_COMMENT_STATE, SYMBOL_SLASH), LINE_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(LINE_COMMENT_STATE, SYMBOL_STAR), LINE_COMMENT_STATE);
 
-        lexerStateMap.put(new Pair<>(BLOCK_COMMENT_STATE, SYMBOL_OPENING_CURLY_BRACKET), BLOCK_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(BLOCK_COMMENT_STATE, SYMBOL_CLOSING_CURLY_BRACKET), BLOCK_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(BLOCK_COMMENT_STATE, SYMBOL_SEMICOLON), BLOCK_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(BLOCK_COMMENT_STATE, SYMBOL_SPACE), BLOCK_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(BLOCK_COMMENT_STATE, SYMBOL_NEW_LINE), BLOCK_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(BLOCK_COMMENT_STATE, SYMBOL_SLASH), BLOCK_COMMENT_STATE);
+        lexerStateMap.put(new Pair<>(LINE_COMMENT_STATE, SYMBOL_NEW_LINE), END_OF_LEXEME_STATE);
+
+
         lexerStateMap.put(new Pair<>(BLOCK_COMMENT_STATE, SYMBOL_STAR), POTENTIONAL_END_OF_BLOCK_COMMENT_STATE);
 
-        lexerStateMap.put(new Pair<>(POTENTIONAL_END_OF_BLOCK_COMMENT_STATE, SYMBOL_OPENING_CURLY_BRACKET), BLOCK_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(POTENTIONAL_END_OF_BLOCK_COMMENT_STATE, SYMBOL_CLOSING_CURLY_BRACKET), BLOCK_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(POTENTIONAL_END_OF_BLOCK_COMMENT_STATE, SYMBOL_SEMICOLON), BLOCK_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(POTENTIONAL_END_OF_BLOCK_COMMENT_STATE, SYMBOL_SPACE), BLOCK_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(POTENTIONAL_END_OF_BLOCK_COMMENT_STATE, SYMBOL_NEW_LINE), BLOCK_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(POTENTIONAL_END_OF_BLOCK_COMMENT_STATE, SYMBOL_SLASH), END_OF_LEXEME_STATE);
-        lexerStateMap.put(new Pair<>(POTENTIONAL_END_OF_BLOCK_COMMENT_STATE, SYMBOL_STAR), BLOCK_COMMENT_STATE);
+
+        lexerStateMap.put(new Pair<>(POTENTIONAL_END_OF_BLOCK_COMMENT_STATE, SYMBOL_SLASH), END_OF_BLOCK_COMMENT_STATE);
+
+
+        lexerStateMap.put(new Pair<>(DEFAULT_STATE, SYMBOL_OPENING_CURLY_BRACKET), END_OF_LEXEME_STATE);
+        lexerStateMap.put(new Pair<>(DEFAULT_STATE, SYMBOL_CLOSING_CURLY_BRACKET), END_OF_LEXEME_STATE);
+        lexerStateMap.put(new Pair<>(DEFAULT_STATE, SYMBOL_SEMICOLON), END_OF_LEXEME_STATE);
+        lexerStateMap.put(new Pair<>(DEFAULT_STATE, SYMBOL_SPACE), END_OF_LEXEME_STATE);
+        lexerStateMap.put(new Pair<>(DEFAULT_STATE, SYMBOL_NEW_LINE), END_OF_LEXEME_STATE);
+        lexerStateMap.put(new Pair<>(DEFAULT_STATE, SYMBOL_SLASH), END_OF_LEXEME_STATE);
+        lexerStateMap.put(new Pair<>(DEFAULT_STATE, SYMBOL_STAR), DEFAULT_STATE);
+
 
         lexerStateMap.put(new Pair<>(END_OF_LEXEME_STATE, SYMBOL_OPENING_CURLY_BRACKET), OPENING_CURLY_BRACKET_STATE);
         lexerStateMap.put(new Pair<>(END_OF_LEXEME_STATE, SYMBOL_CLOSING_CURLY_BRACKET), CLOSING_CURLY_BRACKET_STATE);
@@ -93,14 +93,6 @@ public class StateMap {
         lexerStateMap.put(new Pair<>(END_OF_LEXEME_STATE, SYMBOL_NEW_LINE), NEW_LINE_STATE);
         lexerStateMap.put(new Pair<>(END_OF_LEXEME_STATE, SYMBOL_SLASH), POTENTIONAL_COMMENT_STATE);
         lexerStateMap.put(new Pair<>(END_OF_LEXEME_STATE, SYMBOL_STAR), DEFAULT_STATE);
-
-        lexerStateMap.put(new Pair<>(DEFAULT_STATE, SYMBOL_OPENING_CURLY_BRACKET), END_OF_LEXEME_STATE);
-        lexerStateMap.put(new Pair<>(DEFAULT_STATE, SYMBOL_CLOSING_CURLY_BRACKET), END_OF_LEXEME_STATE);
-        lexerStateMap.put(new Pair<>(DEFAULT_STATE, SYMBOL_SEMICOLON), END_OF_LEXEME_STATE);
-        lexerStateMap.put(new Pair<>(DEFAULT_STATE, SYMBOL_SPACE), END_OF_LEXEME_STATE);
-        lexerStateMap.put(new Pair<>(DEFAULT_STATE, SYMBOL_NEW_LINE), END_OF_LEXEME_STATE);
-        lexerStateMap.put(new Pair<>(DEFAULT_STATE, SYMBOL_SLASH), POTENTIONAL_COMMENT_STATE);
-        lexerStateMap.put(new Pair<>(DEFAULT_STATE, SYMBOL_STAR), DEFAULT_STATE);
     }
 
     /**

@@ -23,13 +23,13 @@ public class FormatterCommandFactory implements IFormatterCommandFactory {
      * This method implements transferring of formatter command in according with last written lexeme
      * and new formatter state.
      *
-     * @param lastWrittenLexemeName
-     * @param newState
-     * @return
+     * @param lastWrittenLexemeName Last written in IWriter instance lexeme
+     * @param currentState Current formatter state
+     * @return IFormatterCommand instance
      */
     @Override
     public IFormatterCommand createCommand(final String lastWrittenLexemeName,
-                                           final FormatterState newState) {
-        return formatterCommandRepository.getCommand(lastWrittenLexemeName, newState);
+                                           final FormatterState currentState) {
+        return formatterCommandRepository.getCommand(lastWrittenLexemeName, currentState);
     }
 }

@@ -6,18 +6,29 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+/**
+ * This class presents formatter command for defaulting writing of lexemes with new line symbol before.
+ */
 public class WritingWithNewLineBeforeFormatterCommand implements IFormatterCommand {
     private final Logger logger = LoggerFactory.getLogger(WritingWithNewLineBeforeFormatterCommand.class);
     private FormatterCommandArgs formatterCommandArgs;
-    private Character SYMBOL_NEW_LINE;
+    private static final Character SYMBOL_NEW_LINE = '\n';
     private IFormatterCommand indentFormatterCommand;
 
+    /**
+     * Constructor if WritingWithNewLineBeforeFormatterCommand class.
+     * Here we declare FormatterCommandArgs and IndentFormatterCommand instances.
+     *
+     * @param formatterCommandArgs FormatterCommandArgs instance
+     */
     public WritingWithNewLineBeforeFormatterCommand(final FormatterCommandArgs formatterCommandArgs) {
         this.formatterCommandArgs = formatterCommandArgs;
-        this.SYMBOL_NEW_LINE = '\n';
         indentFormatterCommand = new IndentFormatterCommand(formatterCommandArgs);
     }
 
+    /**
+     * This method writes a lexeme to writer, but before it also writes a new line symbol.
+     */
     @Override
     public void execute() {
         logger.info("WritingWithNewLineBeforeFormatterCommand execute method was called");

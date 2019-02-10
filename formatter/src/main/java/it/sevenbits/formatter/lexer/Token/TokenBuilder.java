@@ -20,14 +20,15 @@ public class TokenBuilder {
     private static final State LINE_COMMENT_STATE = new State("LINE_COMMENT_STATE");
     private static final State BLOCK_COMMENT_STATE = new State("BLOCK_COMMENT_STATE");
     private static final State DEFAULT_STATE = new State("DEFAULT_STATE");
+    private static final State END_OF_BLOCK_COMMENT_STATE = new State("END_OF_BLOCK_COMMENT_STATE");
 
     private static final String OPENING_CURLY_BRACKET_LEXEME_NAME = "LEXEME_OPENING_CURLY_BRACKET";
     private static final String CLOSING_CURLY_BRACKET_LEXEME_NAME = "LEXEME_CLOSING_CURLY_BRACKET";
     private static final String SEMICOLON_LEXEME_NAME = "LEXEME_SEMICOLON";
     private static final String SPACE_LEXEME_NAME = "LEXEME_SPACE";
     private static final String NEW_LINE_LEXEME_NAME = "LEXEME_NEW_LINE";
-    private static final String LINE_COMMENT_LEXEME_NAME = "LEXEME_LINE_COMMENT_STATE";
-    private static final String BLOCK_COMMENT_LEXEME_NAME = "LEXEME_BLOCK_COMMENT_STATE";
+    private static final String LINE_COMMENT_LEXEME_NAME = "LEXEME_LINE_COMMENT";
+    private static final String BLOCK_COMMENT_LEXEME_NAME = "LEXEME_BLOCK_COMMENT";
     private static final String DEFAULT_LEXEME_NAME = "LEXEME_DEFAULT";
 
     /**
@@ -44,8 +45,8 @@ public class TokenBuilder {
         statesNameMap.put(SPACE_STATE, SPACE_LEXEME_NAME);
         statesNameMap.put(NEW_LINE_STATE, NEW_LINE_LEXEME_NAME);
         statesNameMap.put(LINE_COMMENT_STATE, LINE_COMMENT_LEXEME_NAME);
-        statesNameMap.put(BLOCK_COMMENT_STATE, BLOCK_COMMENT_LEXEME_NAME);
         statesNameMap.put(DEFAULT_STATE, DEFAULT_LEXEME_NAME);
+        statesNameMap.put(END_OF_BLOCK_COMMENT_STATE, BLOCK_COMMENT_LEXEME_NAME);
     }
 
     /**
