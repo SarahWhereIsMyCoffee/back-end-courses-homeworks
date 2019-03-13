@@ -79,7 +79,7 @@
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                     <archive><manifest>
-                        <mainClass>it.sevenbits.logger_practice.Main</mainClass>
+                        <mainClass>it.sevenbits.formatter.Main</mainClass>
                     </manifest></archive>
                 </configuration>
                 <executions>
